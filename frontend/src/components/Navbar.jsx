@@ -1,22 +1,64 @@
-import { Text } from "@chakra-ui/react";
-import React from "react";
+import {
+    Button,
+    Menu,
+    MenuButton,
+    MenuGroup,
+    MenuItem,
+    MenuList,
+    Text,
+} from "@chakra-ui/react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../features/users/usersSlice";
+import Cart from "./Cart";
 
 const Navbar = () => {
+    const dispatch = useDispatch();
+    const userFromStorage = JSON.parse(localStorage.getItem("user"));
+
+    const logoutHandler = () => {
+        dispatch(logout());
+    };
+    const [cart, setCart] = useState(false);
     return (
         <div className="container-between">
             <div>
                 <Link to="/">
-                    <Text fontSize="5xl">Store.</Text>
+                    <Text fontSize="4xl">Store.</Text>
                 </Link>
             </div>
             <div className="container-between">
-                <Link to="/login">
-                    <i className="fa-solid fa-user"></i>
-                </Link>
-                <Link to="/cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </Link>
+                {userFromStorage ? (
+                    <>
+                        <Cart />
+                        <Menu>
+                            <MenuButton as={Button} colorScheme="blue">
+                                {userFromStorage.name}
+                            </MenuButton>
+                            <MenuList>
+                                <MenuGroup title="My Account">
+                                    <Link
+                                        to={`/profile/${userFromStorage.id}/${userFromStorage.name}`}
+                                    >
+                                        {" "}
+                                        <MenuItem>Profile</MenuItem>
+                                    </Link>
+                                    <MenuItem onClick={logoutHandler}>
+                                        Logout
+                                    </MenuItem>
+                                </MenuGroup>
+                            </MenuList>
+                        </Menu>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/login">
+                            <i className="fa-solid fa-user"></i>
+                        </Link>
+                        <Cart />
+                    </>
+                )}
             </div>
         </div>
     );

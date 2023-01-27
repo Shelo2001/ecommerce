@@ -6,43 +6,23 @@ import {
     Divider,
     Heading,
     Image,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
     Stack,
     Text,
-    Tooltip,
-    useDisclosure,
-    ModalOverlay,
-    ButtonGroup,
-    Select,
-    useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../components/Spinner";
-import { allProducts, getProduct } from "../features/products/productsSlice";
+import { allProducts } from "../features/products/productsSlice";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 
 const Products = () => {
     const dispatch = useDispatch();
-    const { products, product, loading, error } = useSelector(
-        (state) => state.products
-    );
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { products, loading, error } = useSelector((state) => state.products);
+
     useEffect(() => {
         dispatch(allProducts());
     }, []);
-
-    const productDetailsHandler = (id) => {
-        onOpen();
-        dispatch(getProduct(id));
-    };
-
-    const addToCartHandler = () => {};
 
     return (
         <div className="container-products">
@@ -81,112 +61,16 @@ const Products = () => {
                                     </CardBody>
                                     <Divider />
                                     <CardFooter>
-                                        <Button
-                                            onClick={() =>
-                                                productDetailsHandler(p.id)
-                                            }
-                                            rightIcon={<ChevronRightIcon />}
-                                            colorScheme="teal"
-                                        >
-                                            See details
-                                        </Button>
+                                        <Link to={`/product/${p.id}`}>
+                                            <Button
+                                                rightIcon={<ChevronRightIcon />}
+                                                colorScheme="teal"
+                                            >
+                                                See details
+                                            </Button>
+                                        </Link>
                                     </CardFooter>
                                 </Card>
-
-                                <Modal
-                                    size="xl"
-                                    isCentered
-                                    isOpen={isOpen}
-                                    onClose={onClose}
-                                >
-                                    <ModalOverlay />
-                                    <ModalContent>
-                                        <ModalHeader>
-                                            {product.title}
-                                        </ModalHeader>
-                                        <ModalCloseButton />
-                                        <ModalBody>
-                                            <div className="container-between">
-                                                <Image
-                                                    src={product.image}
-                                                    alt="Green double couch with wooden legs"
-                                                    boxSize="200px"
-                                                    borderRadius="lg"
-                                                />
-                                                <Divider />
-                                                <div className="container-column">
-                                                    <Text>
-                                                        Description:{" "}
-                                                        {product.description}
-                                                    </Text>
-                                                    <Text>
-                                                        Category:{" "}
-                                                        {product.category}
-                                                    </Text>
-                                                    <Select
-                                                        placeholder={`In Stock: ${product.quantity}`}
-                                                        size="sm"
-                                                        bg="gray.300"
-                                                        borderColor="gray.300"
-                                                        color="black"
-                                                    >
-                                                        {[
-                                                            ...Array(
-                                                                product.quantity
-                                                            ).keys(),
-                                                        ].map((x) => (
-                                                            <option
-                                                                defaultValue={x}
-                                                            >
-                                                                {x + 1}
-                                                            </option>
-                                                        ))}
-                                                    </Select>
-                                                    <Text
-                                                        color="blue.600"
-                                                        fontSize="2xl"
-                                                    >
-                                                        ${product.price}
-                                                    </Text>
-                                                </div>
-                                            </div>
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <ButtonGroup>
-                                                <Button
-                                                    bg="red.500"
-                                                    _hover={{ bg: "red.600" }}
-                                                    color="white"
-                                                    onClick={onClose}
-                                                >
-                                                    Close
-                                                </Button>
-                                                {product.quantity == 0 ? (
-                                                    <Tooltip
-                                                        label="No items in stock yet"
-                                                        placement="top"
-                                                    >
-                                                        <Button
-                                                            isDisabled="true"
-                                                            colorScheme="teal"
-                                                        >
-                                                            Add To Cart
-                                                        </Button>
-                                                    </Tooltip>
-                                                ) : (
-                                                    <Button
-                                                        onClick={
-                                                            addToCartHandler
-                                                        }
-                                                        colorScheme="teal"
-                                                    >
-                                                        Add To Cart
-                                                    </Button>
-                                                )}
-                                            </ButtonGroup>
-                                        </ModalFooter>
-                                    </ModalContent>
-                                </Modal>
                             </>
                         ))}
                     </>

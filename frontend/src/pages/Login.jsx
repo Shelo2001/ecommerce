@@ -10,11 +10,17 @@ import {
 import { Formik } from "formik";
 import { FormControl, InputControl, SubmitButton } from "formik-chakra-ui";
 import * as React from "react";
+import { useDispatch } from "react-redux";
 import { Link as ReachLink } from "react-router-dom";
 import * as Yup from "yup";
+import { login } from "../features/users/usersSlice";
 
 const Login = () => {
-    const onSubmit = (values) => {};
+    const dispatch = useDispatch();
+
+    const onSubmit = (values) => {
+        dispatch(login(values));
+    };
     const initialValues = {
         email: "",
         password: "",
@@ -41,7 +47,7 @@ const Login = () => {
                             px={6}
                         >
                             <Stack align={"center"}>
-                                <Heading fontSize={"4xl"}>
+                                <Heading fontSize={"3xl"}>
                                     Sign in to your account
                                 </Heading>
                             </Stack>

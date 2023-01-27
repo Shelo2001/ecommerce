@@ -6,17 +6,22 @@ import {
     Heading,
     Text,
     Link,
+    InputLeftAddon,
+    InputGroup,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import React from "react";
 import { Formik } from "formik";
-import { FormControl, InputControl, SubmitButton } from "formik-chakra-ui";
+import { InputControl } from "formik-chakra-ui";
 import { Link as ReachLink } from "react-router-dom";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../features/users/usersSlice";
 
 const Register = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const onSubmit = (values) => {};
+    const dispatch = useDispatch();
+    const onSubmit = (values) => {
+        dispatch(registerUser(values));
+    };
     const initialValues = {
         email: "",
         name: "",
@@ -31,7 +36,7 @@ const Register = () => {
         name: Yup.string().max(255).required(),
         phone_number: Yup.string()
             .matches(phoneRegExp, "Phone number is not valid")
-            .required(),
+            .required("phone number is a required field"),
         password: Yup.string().min(6).required(),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref("password"), null], "Passwords must match")
@@ -48,7 +53,7 @@ const Register = () => {
                 <Flex minH={"80vh"} align={"center"} justify={"center"}>
                     <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
                         <Stack align={"center"}>
-                            <Heading fontSize={"4xl"}>
+                            <Heading fontSize={"3xl"}>
                                 Register to your account
                             </Heading>
                         </Stack>
@@ -69,11 +74,13 @@ const Register = () => {
                                     name="email"
                                     label="Email"
                                 />
-                                <InputControl
-                                    isRequired
-                                    name="phone_number"
-                                    label="Phone Number"
-                                />
+                                <InputGroup>
+                                    <InputLeftAddon children="+995" />
+                                    <InputControl
+                                        isRequired
+                                        name="phone_number"
+                                    />
+                                </InputGroup>
                                 <InputControl
                                     isRequired
                                     name="password"
