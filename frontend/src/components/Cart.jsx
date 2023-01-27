@@ -13,10 +13,13 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerOverlay,
+    Flex,
     Heading,
     Image,
+    Spacer,
     Stack,
     Text,
+    Tooltip,
     useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
@@ -42,6 +45,7 @@ const Cart = () => {
     const removeFromCartHandler = (item) => {
         dispatch(removeItem(item));
     };
+
     return (
         <>
             <Button
@@ -73,6 +77,7 @@ const Cart = () => {
                             <>
                                 {cart.map((item) => (
                                     <Card
+                                        maxW={"fit-content"}
                                         direction={{
                                             base: "column",
                                             sm: "row",
@@ -90,21 +95,22 @@ const Cart = () => {
 
                                         <Stack>
                                             <CardBody>
-                                                <Stack
-                                                    spacing={0}
-                                                    display={"flex"}
-                                                    gap={10}
-                                                    flexDirection="row"
-                                                    alignItems="center"
-                                                >
-                                                    <Heading size="sm">
-                                                        {item.title.substring(
-                                                            0,
-                                                            30
-                                                        )}
-                                                        ...
-                                                    </Heading>
+                                                <Flex justify={"space-between"}>
+                                                    <Tooltip
+                                                        placement="top"
+                                                        label={`${item.title}`}
+                                                    >
+                                                        <Heading size="sm">
+                                                            {item.title.substring(
+                                                                0,
+                                                                30
+                                                            )}
+                                                            ...
+                                                        </Heading>
+                                                    </Tooltip>
+                                                    <Spacer />
                                                     <Button
+                                                        ml={"52"}
                                                         onClick={() =>
                                                             removeFromCartHandler(
                                                                 item
@@ -118,7 +124,7 @@ const Cart = () => {
                                                     >
                                                         <i class="fa-solid fa-trash"></i>
                                                     </Button>
-                                                </Stack>
+                                                </Flex>
                                                 <Stack
                                                     spacing={0}
                                                     gap={5}
@@ -172,7 +178,15 @@ const Cart = () => {
                     </DrawerBody>
                     <DrawerFooter>
                         <Text fontSize={32} fontWeight={"extrabold"}>
-                            Summary: $300
+                            Summary: $
+                            {cart
+                                .reduce(
+                                    (acc, item) =>
+                                        acc +
+                                        Number(item.quantity) * item.price,
+                                    0
+                                )
+                                .toFixed(2)}
                         </Text>
                     </DrawerFooter>
                     <Divider />

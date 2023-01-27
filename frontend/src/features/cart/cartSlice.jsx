@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Swal } from "sweetalert2/dist/sweetalert2";
 
 const cartSlice = createSlice({
     name: "cart",
