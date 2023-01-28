@@ -91,7 +91,7 @@ const Product = () => {
                                 )}
                             </Select>
                             <Text color="teal.600" fontSize="2xl">
-                                Price: ${product.price}
+                                Price: ${product.price * quantity}
                             </Text>
                             <Divider />
                             <Flex align="center" justify="space-between">

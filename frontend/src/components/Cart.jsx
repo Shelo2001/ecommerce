@@ -194,7 +194,22 @@ const Cart = () => {
                         <Button variant="outline" mr={3} onClick={onClose}>
                             Cancel
                         </Button>
-                        <Button colorScheme="teal">Checkout</Button>
+                        {cart.length > 0 ? (
+                            <Link to="/checkout">
+                                <Button onClick={onClose} colorScheme="teal">
+                                    Checkout
+                                </Button>
+                            </Link>
+                        ) : (
+                            <Tooltip
+                                placement="top"
+                                label="Cannot proceed to checkout"
+                            >
+                                <Button isDisabled colorScheme="teal">
+                                    Checkout
+                                </Button>
+                            </Tooltip>
+                        )}
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
