@@ -1,50 +1,35 @@
-import { Container } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Checkbox, Container } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Steps from "../components/Steps";
-import {
-    Flex,
-    Box,
-    Stack,
-    Button,
-    Heading,
-    Text,
-    Link,
-    InputLeftAddon,
-    InputGroup,
-} from "@chakra-ui/react";
+import { Flex, Box, Stack, Button, Text } from "@chakra-ui/react";
 import { Formik } from "formik";
-import { InputControl } from "formik-chakra-ui";
-import { Link as ReachLink } from "react-router-dom";
+import { InputControl, TextareaControl } from "formik-chakra-ui";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { registerUser } from "../features/users/usersSlice";
+import { saveShippingAddress } from "../features/order/orderSlice";
 
 const Shipping = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const onSubmit = (values) => {
-        dispatch(registerUser(values));
+        let user = JSON.parse(localStorage.getItem("user"));
+        let address = { ...values, user_id: user.id };
+        dispatch(saveShippingAddress(address));
+        navigate("/placeorder");
     };
     const initialValues = {
-        email: "",
-        name: "",
-        phone_number: "",
-        password: "",
-        confirmPassword: "",
+        City: "",
+        Street: "",
+        AdditionalInfo: "",
     };
-    const phoneRegExp =
-        /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
     const validationSchema = Yup.object({
-        email: Yup.string().email().required(),
-        name: Yup.string().max(255).required(),
-        phone_number: Yup.string()
-            .matches(phoneRegExp, "Phone number is not valid")
-            .required("phone number is a required field"),
-        password: Yup.string().min(6).required(),
-        confirmPassword: Yup.string()
-            .oneOf([Yup.ref("password"), null], "Passwords must match")
-            .required("confirm password is a required field"),
+        city: Yup.string().required().max(25),
+        street: Yup.string().required().max(50),
+        additional_info: Yup.string()
+            .required("Additional info is a required field")
+            .max(250),
     });
     useEffect(() => {
         if (JSON.parse(localStorage.getItem("token")) == null) {
@@ -66,15 +51,10 @@ const Shipping = () => {
                         <Stack
                             spacing={8}
                             mx={"auto"}
-                            maxW={"lg"}
+                            w={"container.sm"}
                             py={12}
                             px={6}
                         >
-                            <Stack align={"center"}>
-                                <Heading fontSize={"3xl"}>
-                                    Register to your account
-                                </Heading>
-                            </Stack>
                             <Box
                                 rounded={"lg"}
                                 onSubmit={handleSubmit}
@@ -84,37 +64,35 @@ const Shipping = () => {
                                 <Stack spacing={4}>
                                     <InputControl
                                         isRequired
-                                        name="name"
-                                        label="Name"
+                                        name="city"
+                                        label="City"
                                     />
                                     <InputControl
                                         isRequired
-                                        name="email"
-                                        label="Email"
+                                        name="street"
+                                        label="Street"
                                     />
-                                    <InputControl
+                                    <TextareaControl
                                         isRequired
-                                        name="email"
-                                        label="Email"
+                                        name="additional_info"
+                                        label="Additional info"
+                                        rows={10}
                                     />
-                                    <InputControl
-                                        isRequired
-                                        name="password"
-                                        inputProps={{ type: "password" }}
-                                        label="Password"
-                                    />
-                                    <InputControl
-                                        isRequired
-                                        name="confirmPassword"
-                                        inputProps={{ type: "password" }}
-                                        label="Confirm Password"
-                                    />
+
                                     <Button
                                         onClick={handleSubmit}
                                         colorScheme="teal"
                                     >
                                         Save Shipping Address
                                     </Button>
+                                    <Text
+                                        textAlign={"center"}
+                                        fontSize={"lg"}
+                                        color={"gray.600"}
+                                    >
+                                        <i class="fa-solid fa-truck"></i> 2-3
+                                        business days delivery 🚀
+                                    </Text>
                                 </Stack>
                             </Box>
                         </Stack>

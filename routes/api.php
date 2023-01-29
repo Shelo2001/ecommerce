@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\ShippingAddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return auth()->user();
     });
     Route::get('/logout', [AuthenticationController::class, 'logout']);
+
+    Route::post('/shippingaddress/save',[ShippingAddressController::class,'saveShippingAddress']);
+    Route::get('/shippingaddress/{id}',[ShippingAddressController::class,'getShippingAddress']);
 });
 
 Route::get('/products',[ProductController::class,'getProducts']);

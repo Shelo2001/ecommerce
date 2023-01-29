@@ -37,7 +37,7 @@ const Products = () => {
             icon: "success",
             title: "Product added in cart",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1000,
         });
     };
 

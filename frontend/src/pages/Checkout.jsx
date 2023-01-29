@@ -7,6 +7,7 @@ import {
     CardBody,
     CardHeader,
     Container,
+    Divider,
     Flex,
     Heading,
     Image,
@@ -178,7 +179,7 @@ const Checkout = () => {
                             <CardHeader>
                                 <Heading size="md">Cart Summary</Heading>
                             </CardHeader>
-
+                            <Divider />
                             <CardBody>
                                 <Stack divider={<StackDivider />} spacing="4">
                                     <Box>
@@ -212,63 +213,7 @@ const Checkout = () => {
                                             $
                                         </Text>
                                     </Box>
-                                    <Box>
-                                        <Heading
-                                            size="xs"
-                                            textTransform="uppercase"
-                                        >
-                                            Shipping
-                                        </Heading>
-                                        <Text pt="2" fontSize="sm">
-                                            {cart
-                                                .reduce(
-                                                    (acc, item) =>
-                                                        ((acc +
-                                                            item.quantity *
-                                                                item.price) *
-                                                            3) /
-                                                        100,
-                                                    0
-                                                )
-                                                .toFixed(2)}
-                                            $
-                                        </Text>
-                                    </Box>
-                                    <Box>
-                                        <Heading
-                                            size="xs"
-                                            textTransform="uppercase"
-                                        >
-                                            Price Summary
-                                        </Heading>
-                                        <Text pt="2" fontSize="sm">
-                                            {Number(
-                                                cart
-                                                    .reduce(
-                                                        (acc, item) =>
-                                                            acc +
-                                                            item.quantity *
-                                                                item.price,
-                                                        0
-                                                    )
-                                                    .toFixed(2)
-                                            ) +
-                                                Number(
-                                                    cart
-                                                        .reduce(
-                                                            (acc, item) =>
-                                                                ((acc +
-                                                                    item.quantity *
-                                                                        item.price) *
-                                                                    3) /
-                                                                100,
-                                                            0
-                                                        )
-                                                        .toFixed(2)
-                                                )}
-                                            $
-                                        </Text>
-                                    </Box>
+
                                     <Box>
                                         {cart.length > 0 ? (
                                             <Button

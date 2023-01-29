@@ -7,7 +7,6 @@ const Steps = ({ firstStep, secondStep, thirdStep }) => {
         <div>
             <Breadcrumb
                 fontSize={"md"}
-                marginX={"auto"}
                 textAlign={"center"}
                 fontWeight={"bold"}
             >
