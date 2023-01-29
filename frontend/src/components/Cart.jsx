@@ -206,7 +206,7 @@ const Cart = () => {
                                 label="Cannot proceed to checkout"
                             >
                                 <Button isDisabled colorScheme="teal">
-                                    Checkout
+                                    Review Cart
                                 </Button>
                             </Tooltip>
                         )}

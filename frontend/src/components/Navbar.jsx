@@ -33,7 +33,11 @@ const Navbar = () => {
                     <>
                         <Cart />
                         <Menu>
-                            <MenuButton as={Button} colorScheme="blue">
+                            <MenuButton
+                                as={Button}
+                                colorScheme="teal"
+                                variant="outline"
+                            >
                                 {userFromStorage.name}
                             </MenuButton>
                             <MenuList>
@@ -53,10 +57,10 @@ const Navbar = () => {
                     </>
                 ) : (
                     <>
+                        <Cart />
                         <Link to="/login">
                             <i className="fa-solid fa-user"></i>
                         </Link>
-                        <Cart />
                     </>
                 )}
             </div>
