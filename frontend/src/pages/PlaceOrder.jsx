@@ -29,22 +29,19 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link as ReachLink } from "react-router-dom";
 import Steps from "../components/Steps";
-import {
-    decrementQuantity,
-    incrementQuantity,
-    removeItem,
-} from "../features/cart/cartSlice";
-import { userShippingAddress } from "../features/order/orderSlice";
+import { saveOrder, userShippingAddress } from "../features/order/orderSlice";
 
 const PlaceOrder = () => {
     const { cart } = useSelector((state) => state.cart);
 
-    const { shippingAddress } = useSelector((state) => state.order);
+    const {
+        shippingAddress,
+        success,
+        order: orderState,
+    } = useSelector((state) => state.order);
     const { address } = shippingAddress;
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    console.log(shippingAddress);
 
     useEffect(() => {
         if (JSON.parse(localStorage.getItem("token")) == null) {
@@ -66,6 +63,12 @@ const PlaceOrder = () => {
             cancelButtonColor: "#d33",
         }).then((result) => {
             if (result.isConfirmed) {
+                let order = {
+                    products: cart,
+                    user_id: address?.user.id,
+                    shipping_address_id: address?.id,
+                };
+                dispatch(saveOrder(order));
                 Swal.fire({
                     icon: "success",
                     title: "Order placed successfully",
@@ -75,6 +78,12 @@ const PlaceOrder = () => {
             }
         });
     };
+
+    useEffect(() => {
+        if (success) {
+            navigate(`/order/${orderState[0].order_id}`);
+        }
+    }, [orderState, success]);
 
     return (
         <div>

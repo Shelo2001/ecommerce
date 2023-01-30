@@ -3,12 +3,14 @@ import axios from "axios";
 
 const initialState = {
     shippingAddress: {},
+    order: [],
+    success: false,
     loading: false,
     error: null,
 };
 
 export const saveShippingAddress = createAsyncThunk(
-    "users/saveShippingAddress",
+    "order/saveShippingAddress",
     async (address) => {
         try {
             let token = JSON.parse(localStorage.getItem("token"));
@@ -25,7 +27,7 @@ export const saveShippingAddress = createAsyncThunk(
 );
 
 export const userShippingAddress = createAsyncThunk(
-    "users/userShippingAddress",
+    "order/userShippingAddress",
     async (id) => {
         try {
             let token = JSON.parse(localStorage.getItem("token"));
@@ -39,6 +41,21 @@ export const userShippingAddress = createAsyncThunk(
         }
     }
 );
+
+export const saveOrder = createAsyncThunk("order/saveOrder", async (order) => {
+    try {
+        let token = JSON.parse(localStorage.getItem("token"));
+        const { data } = await axios.post(
+            `${import.meta.env.VITE_BASE_API_URL}/order/save`,
+            order,
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+        return data;
+    } catch (error) {
+        return error;
+    }
+});
+
 export const orderSlice = createSlice({
     name: "orders",
     initialState,
@@ -63,6 +80,18 @@ export const orderSlice = createSlice({
             state.shippingAddress = payload;
         },
         [userShippingAddress.rejected]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
+        [saveOrder.pending]: (state) => {
+            state.loading = true;
+        },
+        [saveOrder.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.order = payload;
+            state.success = true;
+        },
+        [saveOrder.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },
