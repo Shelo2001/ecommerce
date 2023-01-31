@@ -79,7 +79,7 @@ const PlaceOrder = () => {
 
     useEffect(() => {
         if (success) {
-            navigate(`/order/${orderState[0].order_id}`);
+            navigate(`/order/${orderState[0]?.order_id}`);
         }
     }, [orderState, success]);
 

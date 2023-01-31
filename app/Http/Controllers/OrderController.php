@@ -41,4 +41,15 @@ class OrderController extends Controller
         return response(["order"=>$order]);
     }
 
+    public function updateOrderPayOnDelivery($orderid){
+        $orders = Order::where("order_id", $orderid)->get();
+
+        foreach($orders as $order){
+            $order->update(['pay_on_delivery' => true]);
+            $order->save();
+        }
+        
+        return response([$order]);
+    }
+
 }

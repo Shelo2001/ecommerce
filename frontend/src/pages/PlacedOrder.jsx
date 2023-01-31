@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { useParams, Link as ReachLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrderById } from "../features/order/orderSlice";
+import {
+    getOrderById,
+    updateOrderPayOnDelivery,
+} from "../features/order/orderSlice";
 import {
     Alert,
     AlertIcon,
@@ -69,7 +72,10 @@ const PlacedOrder = () => {
         });
     }, [placedOrder, dispatch]);
 
-    console.log(placedProducts);
+    const updatePayOnDeliveryHandler = (id) => {
+        dispatch(updateOrderPayOnDelivery(id));
+        window.location.reload();
+    };
 
     return (
         <div>
@@ -145,6 +151,27 @@ const PlacedOrder = () => {
                                     </Alert>
                                 )}
                             </Box>
+
+                            <Divider />
+
+                            {placedOrder[0].pay_on_delivery ? (
+                                <Box maxW={"full"}>
+                                    <Text
+                                        py={"5"}
+                                        fontSize={"20px"}
+                                        fontWeight="bold"
+                                    >
+                                        Delivery information
+                                    </Text>
+                                    <Alert status="info">
+                                        <AlertIcon />
+                                        You chose pay on delivery, our courier
+                                        will contact you within a week !!!
+                                    </Alert>
+                                </Box>
+                            ) : (
+                                <></>
+                            )}
 
                             <Divider />
 
@@ -232,24 +259,37 @@ const PlacedOrder = () => {
                                             $
                                         </Text>
                                     </Box>
-                                    <Box>
-                                        <PayPalButton
-                                            createOrder={(data, actions) =>
-                                                createOrder(data, actions)
-                                            }
-                                            onApprove={(data, actions) =>
-                                                onApprove(data, actions)
-                                            }
-                                        />
-                                        <Flex align="center" mb={"5"}>
-                                            <Divider />
-                                            <Text padding="2">or</Text>
-                                            <Divider />
-                                        </Flex>
-                                        <Button colorScheme={"teal"} w="full">
-                                            Pay on delivery
-                                        </Button>
-                                    </Box>
+                                    {placedOrder[0]?.is_paid ||
+                                    placedOrder[0]?.pay_on_delivery ? (
+                                        <></>
+                                    ) : (
+                                        <Box>
+                                            <PayPalButton
+                                                createOrder={(data, actions) =>
+                                                    createOrder(data, actions)
+                                                }
+                                                onApprove={(data, actions) =>
+                                                    onApprove(data, actions)
+                                                }
+                                            />
+                                            <Flex align="center" mb={"5"}>
+                                                <Divider />
+                                                <Text padding="2">or</Text>
+                                                <Divider />
+                                            </Flex>
+                                            <Button
+                                                onClick={() =>
+                                                    updatePayOnDeliveryHandler(
+                                                        placedOrder[0]?.order_id
+                                                    )
+                                                }
+                                                colorScheme={"teal"}
+                                                w="full"
+                                            >
+                                                Pay on delivery
+                                            </Button>
+                                        </Box>
+                                    )}
                                 </Stack>
                             </CardBody>
                         </Card>

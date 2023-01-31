@@ -73,6 +73,22 @@ export const getOrderById = createAsyncThunk(
     }
 );
 
+export const updateOrderPayOnDelivery = createAsyncThunk(
+    "order/updateOrderPayOnDelivery",
+    async (id) => {
+        try {
+            let token = JSON.parse(localStorage.getItem("token"));
+            const { data } = await axios.post(
+                `${import.meta.env.VITE_BASE_API_URL}/order/update/${id}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            return data;
+        } catch (error) {
+            return error;
+        }
+    }
+);
+
 export const orderSlice = createSlice({
     name: "orders",
     initialState,
@@ -121,6 +137,17 @@ export const orderSlice = createSlice({
             state.success = true;
         },
         [getOrderById.rejected]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
+        [updateOrderPayOnDelivery.pending]: (state) => {
+            state.loading = true;
+        },
+        [updateOrderPayOnDelivery.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.success = true;
+        },
+        [updateOrderPayOnDelivery.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },
