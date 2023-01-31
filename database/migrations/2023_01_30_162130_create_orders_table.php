@@ -22,6 +22,9 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('user_id');
             $table->integer('shipping_address_id');
+            $table->boolean("is_delivered")->default(false);
+            $table->boolean("is_paid")->default(false);
+            $table->boolean("pay_on_delivery")->default(false);
             $table->timestamps();
         });
     }

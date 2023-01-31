@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
     shippingAddress: {},
     order: [],
+    placedOrder: [],
     success: false,
     loading: false,
     error: null,
@@ -56,6 +57,22 @@ export const saveOrder = createAsyncThunk("order/saveOrder", async (order) => {
     }
 });
 
+export const getOrderById = createAsyncThunk(
+    "order/getOrderById",
+    async (id) => {
+        try {
+            let token = JSON.parse(localStorage.getItem("token"));
+            const { data } = await axios.get(
+                `${import.meta.env.VITE_BASE_API_URL}/order/${id}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            return data;
+        } catch (error) {
+            return error;
+        }
+    }
+);
+
 export const orderSlice = createSlice({
     name: "orders",
     initialState,
@@ -92,6 +109,18 @@ export const orderSlice = createSlice({
             state.success = true;
         },
         [saveOrder.rejected]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
+        [getOrderById.pending]: (state) => {
+            state.loading = true;
+        },
+        [getOrderById.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.placedOrder = payload.order;
+            state.success = true;
+        },
+        [getOrderById.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },

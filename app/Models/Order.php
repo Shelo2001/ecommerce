@@ -16,7 +16,11 @@ class Order extends Model
         "quantity",
         "price",
         "user_id",
-        "shipping_address_id","order_id"
+        "shipping_address_id",
+        "order_id",
+        "is_delivered",
+        "is_paid",
+        "pay_on_delivery"
     ];
 
     public function User(){

@@ -217,6 +217,7 @@ const Checkout = () => {
                                     <Box>
                                         {cart.length > 0 ? (
                                             <Button
+                                                w={"full"}
                                                 onClick={navigateToShipping}
                                                 colorScheme={"teal"}
                                             >
@@ -224,6 +225,7 @@ const Checkout = () => {
                                             </Button>
                                         ) : (
                                             <Button
+                                                w={"full"}
                                                 isDisabled
                                                 colorScheme={"teal"}
                                             >

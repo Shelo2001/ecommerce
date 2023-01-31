@@ -15,12 +15,10 @@ import {
     Stack,
     StackDivider,
     Table,
-    TableCaption,
     TableContainer,
     Tbody,
     Td,
     Text,
-    Tfoot,
     Th,
     Thead,
     Tr,
@@ -286,6 +284,7 @@ const PlaceOrder = () => {
                                     <Box>
                                         {cart.length > 0 ? (
                                             <Button
+                                                w={"full"}
                                                 onClick={placeOrderHandler}
                                                 colorScheme={"teal"}
                                             >
@@ -293,6 +292,7 @@ const PlaceOrder = () => {
                                             </Button>
                                         ) : (
                                             <Button
+                                                w={"full"}
                                                 isDisabled
                                                 colorScheme={"teal"}
                                             >

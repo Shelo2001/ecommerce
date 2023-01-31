@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/shippingaddress/save',[ShippingAddressController::class,'saveShippingAddress']);
     Route::get('/shippingaddress/{id}',[ShippingAddressController::class,'getShippingAddress']);
     Route::post('/order/save',[OrderController::class,'saveOrder']);
+    Route::get('/order/{id}',[OrderController::class,'getOrderById']);
 });
 
 Route::get('/products',[ProductController::class,'getProducts']);

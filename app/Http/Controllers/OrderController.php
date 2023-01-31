@@ -35,4 +35,10 @@ class OrderController extends Controller
         return response([$order]);
     }
 
+    public function getOrderById($id){
+        $order = Order::where("order_id", $id)->get();
+
+        return response(["order"=>$order]);
+    }
+
 }
