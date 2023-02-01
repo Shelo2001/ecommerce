@@ -15,6 +15,7 @@ import {
     Card,
     CardBody,
     CardHeader,
+    Code,
     Container,
     Divider,
     Flex,
@@ -278,6 +279,20 @@ const PlacedOrder = () => {
                                                     onApprove(data, actions)
                                                 }
                                             />
+                                            <Box
+                                                display={"flex"}
+                                                flexDirection={"column"}
+                                            >
+                                                <Code>
+                                                    Paypal sample user(completly
+                                                    free)
+                                                </Code>
+                                                <Code>
+                                                    Email:
+                                                    sb-1yabz14480910@personal.example.com
+                                                </Code>
+                                                <Code>Password: asdasd123</Code>
+                                            </Box>
                                             <Flex align="center" mb={"5"}>
                                                 <Divider />
                                                 <Text padding="2">or</Text>
