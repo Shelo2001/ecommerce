@@ -43,13 +43,13 @@ const MyOrders = ({ name, id }) => {
                 </Alert>
             ) : (
                 <TableContainer mt={"10"}>
-                    <Table size="md">
+                    <Table size="md" w={{ sm: "full" }}>
                         <TableCaption>
                             <Text autoCapitalize="true">
                                 Note for customers: if you don't pay order price
                                 within a 3 day or don't choose pay on delivery,
                                 the order will be automatically deleted from
-                                database!{" "}
+                                database after 3 days!{" "}
                             </Text>
                         </TableCaption>
 

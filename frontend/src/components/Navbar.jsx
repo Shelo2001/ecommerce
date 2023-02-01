@@ -22,47 +22,49 @@ const Navbar = () => {
     };
     const [cart, setCart] = useState(false);
     return (
-        <div className="container-between">
-            <div>
-                <Link to="/">
-                    <Text fontSize="4xl">Store.</Text>
-                </Link>
-            </div>
+        <div className="cart">
             <div className="container-between">
-                {userFromStorage ? (
-                    <>
-                        <Cart />
-                        <Menu>
-                            <MenuButton
-                                as={Button}
-                                colorScheme="teal"
-                                variant="outline"
-                            >
-                                {userFromStorage.name}
-                            </MenuButton>
-                            <MenuList>
-                                <MenuGroup title="My Account">
-                                    <Link
-                                        to={`/profile/${userFromStorage.id}/${userFromStorage.name}`}
-                                    >
-                                        {" "}
-                                        <MenuItem>Profile</MenuItem>
-                                    </Link>
-                                    <MenuItem onClick={logoutHandler}>
-                                        Logout
-                                    </MenuItem>
-                                </MenuGroup>
-                            </MenuList>
-                        </Menu>
-                    </>
-                ) : (
-                    <>
-                        <Cart />
-                        <Link to="/login">
-                            <i className="fa-solid fa-user"></i>
-                        </Link>
-                    </>
-                )}
+                <div>
+                    <Link to="/">
+                        <Text fontSize="4xl">STORE.</Text>
+                    </Link>
+                </div>
+                <div className="container-between">
+                    {userFromStorage ? (
+                        <>
+                            <Cart />
+                            <Menu>
+                                <MenuButton
+                                    as={Button}
+                                    colorScheme="teal"
+                                    variant="outline"
+                                >
+                                    {userFromStorage.name}
+                                </MenuButton>
+                                <MenuList>
+                                    <MenuGroup title="My Account">
+                                        <Link
+                                            to={`/profile/${userFromStorage.id}/${userFromStorage.name}`}
+                                        >
+                                            {" "}
+                                            <MenuItem>Profile</MenuItem>
+                                        </Link>
+                                        <MenuItem onClick={logoutHandler}>
+                                            Logout
+                                        </MenuItem>
+                                    </MenuGroup>
+                                </MenuList>
+                            </Menu>
+                        </>
+                    ) : (
+                        <>
+                            <Cart />
+                            <Link to="/login">
+                                <i className="fa-solid fa-user"></i>
+                            </Link>
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );

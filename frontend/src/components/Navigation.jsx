@@ -9,11 +9,11 @@ const Navigation = () => {
 
     return (
         <Tabs
-            colorScheme={"teal"}
+            colorScheme={"blackAlpha"}
             mt={"10"}
             px={"40"}
             isFitted
-            variant="enclosed"
+            variant="soft-rounded"
         >
             <TabList>
                 <Tab fontSize={"2xl"} fontWeight="bold">

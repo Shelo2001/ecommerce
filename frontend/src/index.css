@@ -9,6 +9,7 @@
 .container-products {
     display: flex;
     justify-content: center;
+    margin-top: 50px;
 }
 .container-start {
     display: flex;
@@ -44,11 +45,11 @@
 }
 .cart-length {
     position: absolute;
-    margin-left: 26px;
+    margin-left: 30px;
     margin-bottom: 18px;
     z-index: 1;
     border-radius: 20px;
-    padding: 5px;
+    padding: 5px 8px;
     color: white;
     background-color: #319795;
     font-size: 12px;

@@ -1,4 +1,5 @@
 import {
+    Badge,
     Box,
     Button,
     ButtonGroup,
@@ -6,6 +7,7 @@ import {
     CardBody,
     CardFooter,
     Divider,
+    Flex,
     Heading,
     Image,
     Stack,
@@ -49,79 +51,128 @@ const Products = () => {
                 ) : (
                     <>
                         {products.map((p) => (
-                            <>
-                                <Card maxW="sm">
-                                    <CardBody>
+                            <Tooltip label="Details" placement="top">
+                                <Box
+                                    _hover={{
+                                        transform: "scale(1.05)",
+                                        transition: "1s",
+                                        zIndex: "1",
+                                    }}
+                                    bg={useColorModeValue("white", "gray.800")}
+                                    maxW="sm"
+                                    borderWidth="1px"
+                                    rounded="lg"
+                                    shadow="lg"
+                                    position="relative"
+                                >
+                                    <Link to={`/product/${p.id}`}>
                                         <Image
                                             src={p.image}
-                                            alt="Green double couch with wooden legs"
-                                            boxSize="160px"
-                                            borderRadius="lg"
+                                            alt={`Picture of ${p.name}`}
+                                            roundedTop="lg"
                                         />
-                                        <Stack mt="6" spacing="3">
-                                            <Heading size="md">
-                                                {p.title.substring(0, 30)}
-                                                ...
-                                            </Heading>
-                                            <Text>
-                                                {p.description.substring(
-                                                    0,
-                                                    100
-                                                )}
-                                                ...
-                                            </Text>
-                                            <Text color="teal" fontSize="2xl">
-                                                ${p.price}
-                                            </Text>
-                                        </Stack>
-                                    </CardBody>
-                                    <Divider />
-                                    <CardFooter>
-                                        <ButtonGroup>
-                                            {p.quantity > 0 ? (
-                                                <Button
-                                                    onClick={() =>
-                                                        onClickHandler(p)
-                                                    }
-                                                    rightIcon={
-                                                        <i class="fa-solid fa-cart-shopping"></i>
-                                                    }
-                                                    colorScheme="teal"
-                                                    variant={"outline"}
+                                    </Link>
+                                    <Box p="6">
+                                        <Box d="flex" alignItems="baseline">
+                                            {p.created_at && (
+                                                <Badge
+                                                    rounded="full"
+                                                    px="2"
+                                                    fontSize="0.8em"
+                                                    colorScheme="red"
                                                 >
-                                                    Add to cart
-                                                </Button>
-                                            ) : (
+                                                    New
+                                                </Badge>
+                                            )}
+                                        </Box>
+                                        <Flex
+                                            mt="1"
+                                            justifyContent="space-between"
+                                            alignContent="center"
+                                        >
+                                            <Link to={`/product/${p.id}`}>
+                                                <Box
+                                                    fontSize="md"
+                                                    fontWeight="semibold"
+                                                    as="h4"
+                                                    lineHeight="tight"
+                                                    isTruncated
+                                                >
+                                                    {p.title}
+                                                </Box>
+                                            </Link>
+                                            {p.quantity > 0 ? (
                                                 <Tooltip
-                                                    placement="top"
-                                                    label="No items in stock yet !"
+                                                    label="Add to cart"
+                                                    placement={"top"}
+                                                    fontSize={"1.2em"}
                                                 >
                                                     <Button
-                                                        rightIcon={
-                                                            <i class="fa-solid fa-cart-shopping"></i>
+                                                        _hover={{
+                                                            backgroundColor:
+                                                                "transparent",
+                                                            border: "1px solid black",
+                                                            transition: ".5s",
+                                                        }}
+                                                        bg={"transparent"}
+                                                        border="1px solid transparent"
+                                                        onClick={() =>
+                                                            onClickHandler(p)
                                                         }
-                                                        isDisabled
-                                                        variant={"teal"}
                                                     >
-                                                        Add to cart
+                                                        <i className="fa-solid fa-shopping-cart"></i>
+                                                    </Button>
+                                                </Tooltip>
+                                            ) : (
+                                                <Tooltip
+                                                    label="No items in cart"
+                                                    placement={"top"}
+                                                    fontSize={"1.2em"}
+                                                >
+                                                    <Button
+                                                        isDisabled
+                                                        _hover={{
+                                                            backgroundColor:
+                                                                "transparent",
+                                                            border: "1px solid black",
+                                                            transition: ".5s",
+                                                        }}
+                                                        bg={"transparent"}
+                                                        border="1px solid transparent"
+                                                        onClick={() =>
+                                                            onClickHandler(p)
+                                                        }
+                                                    >
+                                                        <i className="fa-solid fa-shopping-cart"></i>
                                                     </Button>
                                                 </Tooltip>
                                             )}
+                                        </Flex>
 
-                                            <Link to={`/product/${p.id}`}>
-                                                <Button
-                                                    rightIcon={
-                                                        <ChevronRightIcon />
-                                                    }
-                                                    colorScheme="teal"
+                                        <Flex
+                                            justifyContent="space-between"
+                                            alignContent="center"
+                                        >
+                                            <Box
+                                                fontSize="2xl"
+                                                color={useColorModeValue(
+                                                    "gray.800",
+                                                    "white"
+                                                )}
+                                            >
+                                                <Box
+                                                    as="span"
+                                                    color={"gray.600"}
+                                                    fontSize="lg"
                                                 >
-                                                    See details
-                                                </Button>
-                                            </Link>
-                                        </ButtonGroup>
-                                    </CardFooter>
-                                </Card>
-                            </>
+                                                    $
+                                                </Box>
+                                                {p.price.toFixed(2)}
+                                            </Box>
+                                        </Flex>
+                                    </Box>
+                                </Box>
+                            </Tooltip>
                         ))}
                     </>
                 )}
