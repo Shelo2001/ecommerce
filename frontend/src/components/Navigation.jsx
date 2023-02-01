@@ -25,10 +25,10 @@ const Navigation = () => {
             </TabList>
             <TabPanels>
                 <TabPanel>
-                    <Profile id={id} />
+                    <Profile name={name} id={id} />
                 </TabPanel>
                 <TabPanel>
-                    <MyOrders name={name} />
+                    <MyOrders name={name} id={id} />
                 </TabPanel>
             </TabPanels>
         </Tabs>

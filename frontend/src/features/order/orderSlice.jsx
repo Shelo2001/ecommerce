@@ -4,7 +4,9 @@ import axios from "axios";
 const initialState = {
     shippingAddress: {},
     order: [],
+    paymentSuccess: false,
     placedOrder: [],
+    myOrders: [],
     success: false,
     loading: false,
     error: null,
@@ -77,10 +79,8 @@ export const updateOrderPayOnDelivery = createAsyncThunk(
     "order/updateOrderPayOnDelivery",
     async (id) => {
         try {
-            let token = JSON.parse(localStorage.getItem("token"));
             const { data } = await axios.post(
-                `${import.meta.env.VITE_BASE_API_URL}/order/update/${id}`,
-                { headers: { Authorization: `Bearer ${token}` } }
+                `${import.meta.env.VITE_BASE_API_URL}/order/update/${id}`
             );
             return data;
         } catch (error) {
@@ -88,6 +88,34 @@ export const updateOrderPayOnDelivery = createAsyncThunk(
         }
     }
 );
+
+export const payOrder = createAsyncThunk(
+    "order/payOrder",
+    async (paymentData) => {
+        try {
+            const { data } = await axios.post(
+                `${import.meta.env.VITE_BASE_API_URL}/order/pay/${
+                    paymentData.order_id
+                }`,
+                paymentData
+            );
+            return data;
+        } catch (error) {
+            return error;
+        }
+    }
+);
+
+export const myOrders = createAsyncThunk("order/myOrders", async (id) => {
+    try {
+        const { data } = await axios.get(
+            `${import.meta.env.VITE_BASE_API_URL}/order/myorders/${id}`
+        );
+        return data;
+    } catch (error) {
+        return error;
+    }
+});
 
 export const orderSlice = createSlice({
     name: "orders",
@@ -148,6 +176,30 @@ export const orderSlice = createSlice({
             state.success = true;
         },
         [updateOrderPayOnDelivery.rejected]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
+        [payOrder.pending]: (state) => {
+            state.loading = true;
+        },
+        [payOrder.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.success = true;
+            state.paymentSuccess = true;
+        },
+        [payOrder.rejected]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
+        [myOrders.pending]: (state) => {
+            state.loading = true;
+        },
+        [myOrders.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.myOrders = payload[0];
+            state.success = true;
+        },
+        [myOrders.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },

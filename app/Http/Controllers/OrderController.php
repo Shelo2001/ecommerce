@@ -52,4 +52,24 @@ class OrderController extends Controller
         return response([$order]);
     }
 
+    public function payOrder(Request $request ,$orderid){
+        $orders = Order::where("order_id", $orderid)->get();
+
+        foreach($orders as $order){
+            $order->update(['is_paid' => true]);
+            $order->update(['payment_id' => $request['payment_id']]);
+            $order->update(['payment_status' => $request['payment_status']]);
+            $order->save();
+        }
+        
+        return response([$order]);
+    }
+
+    public function myOrders($userid){
+        $orders = Order::where("user_id", $userid)->groupBy('order_id')->orderBy('created_at')->get();
+
+        return response([$orders]);
+    }
+
+
 }

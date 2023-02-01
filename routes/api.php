@@ -31,12 +31,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     Route::get('/order/{id}',[OrderController::class,'getOrderById']);
     Route::post('/order/save',[OrderController::class,'saveOrder']);
-    Route::post('/order/update/{orderid}',[OrderController::class,'updateOrderPayOnDelivery']);
-    
 
 });
 
 //Products 
 Route::get('/products',[ProductController::class,'getProducts']);
 Route::get('/products/{id}',[ProductController::class,'getProduct']);
+Route::post('/order/update/{orderid}',[OrderController::class,'updateOrderPayOnDelivery']);
+Route::post('/order/pay/{orderid}',[OrderController::class,'payOrder']);
+Route::get('/order/myorders/{userid}',[OrderController::class,'myOrders']);
 

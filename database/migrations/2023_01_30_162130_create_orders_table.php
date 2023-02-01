@@ -25,6 +25,8 @@ return new class extends Migration
             $table->boolean("is_delivered")->default(false);
             $table->boolean("is_paid")->default(false);
             $table->boolean("pay_on_delivery")->default(false);
+            $table->string("payment_id")->default('');
+            $table->string("payment_status")->default('');
             $table->timestamps();
         });
     }

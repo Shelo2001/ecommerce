@@ -4,6 +4,7 @@ import { useParams, Link as ReachLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
     getOrderById,
+    payOrder,
     updateOrderPayOnDelivery,
 } from "../features/order/orderSlice";
 import {
@@ -33,34 +34,27 @@ import {
 } from "@chakra-ui/react";
 import { getPlacedProduct } from "../features/products/productsSlice";
 const PlacedOrder = () => {
-    // Paypal integration
-    const PayPalButton = window.paypal.Buttons.driver("react", {
-        React,
-        ReactDOM,
-    });
-    const createOrder = (data, actions) => {
-        return actions.order.create({
-            purchase_units: [
-                {
-                    amount: {
-                        value: "0.01",
-                    },
-                },
-            ],
-        });
-    };
-    const onApprove = (data, actions) => {
-        return actions.order.capture().then(function (details) {
-            console.log(details);
-        });
-    };
-    // End paypal integration
-
     const { id } = useParams();
     const dispatch = useDispatch();
 
-    const { placedOrder } = useSelector((state) => state.order);
+    const { placedOrder, paymentSuccess } = useSelector((state) => state.order);
     const { placedProducts } = useSelector((state) => state.products);
+
+    const totalPrice =
+        Number(
+            placedOrder
+                .reduce((acc, item) => acc + item.quantity * item.price, 0)
+                .toFixed(2)
+        ) +
+        Number(
+            placedOrder
+                .reduce(
+                    (acc, item) =>
+                        ((acc + item.quantity * item.price) * 3) / 100,
+                    0
+                )
+                .toFixed(2)
+        );
 
     useEffect(() => {
         dispatch(getOrderById(id));
@@ -72,16 +66,61 @@ const PlacedOrder = () => {
         });
     }, [placedOrder, dispatch]);
 
-    const updatePayOnDeliveryHandler = (id) => {
-        dispatch(updateOrderPayOnDelivery(id));
-        window.location.reload();
+    // Paypal integration
+    const PayPalButton = window.paypal.Buttons.driver("react", {
+        React,
+        ReactDOM,
+    });
+    const createOrder = (data, actions) => {
+        return actions.order.create({
+            purchase_units: [
+                {
+                    amount: {
+                        value: totalPrice,
+                    },
+                },
+            ],
+        });
     };
+    const onApprove = (data, actions) => {
+        return actions.order.capture().then(function (details) {
+            console.log(details);
+            let paymentData = {
+                payment_id: details.id,
+                payment_status: details.status,
+                order_id: placedOrder[0]?.order_id,
+            };
+            dispatch(payOrder(paymentData));
+        });
+    };
+    // End paypal integration
+
+    const updatePayOnDeliveryHandler = (id) => {
+        Swal.fire({
+            title: "Are you sure you want to pay on delivery?",
+            confirmButtonText: "Yes",
+            showCancelButton: true,
+            confirmButtonColor: "rgb(49, 151, 149)",
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(updateOrderPayOnDelivery(id));
+                window.location.reload();
+            }
+        });
+    };
+
+    useEffect(() => {
+        if (paymentSuccess) {
+            window.location.reload();
+        }
+    }, [paymentSuccess]);
 
     return (
         <div>
             <Container mt={"10"} maxW={"full"}>
                 <Flex gap={"10"}>
-                    {placedOrder.length > 0 ? (
+                    {placedOrder?.length > 0 ? (
                         <Box flex={3}>
                             <TableContainer>
                                 <Table variant="simple">
@@ -220,43 +259,10 @@ const PlacedOrder = () => {
                                             size="xs"
                                             textTransform="uppercase"
                                         >
-                                            Items
+                                            Price Summary (including shipping)
                                         </Heading>
                                         <Text pt="2" fontSize="sm">
-                                            Overall items in cart
-                                        </Text>
-                                    </Box>
-                                    <Box>
-                                        <Heading
-                                            size="xs"
-                                            textTransform="uppercase"
-                                        >
-                                            Items Price
-                                        </Heading>
-                                        <Text pt="2" fontSize="sm">
-                                            $
-                                        </Text>
-                                    </Box>
-                                    <Box>
-                                        <Heading
-                                            size="xs"
-                                            textTransform="uppercase"
-                                        >
-                                            Shipping
-                                        </Heading>
-                                        <Text pt="2" fontSize="sm">
-                                            $
-                                        </Text>
-                                    </Box>
-                                    <Box>
-                                        <Heading
-                                            size="xs"
-                                            textTransform="uppercase"
-                                        >
-                                            Price Summary
-                                        </Heading>
-                                        <Text pt="2" fontSize="sm">
-                                            $
+                                            ${totalPrice}
                                         </Text>
                                     </Box>
                                     {placedOrder[0]?.is_paid ||

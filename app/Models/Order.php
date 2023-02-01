@@ -20,7 +20,9 @@ class Order extends Model
         "order_id",
         "is_delivered",
         "is_paid",
-        "pay_on_delivery"
+        "pay_on_delivery",
+        "payment_id",
+        "payment_status"
     ];
 
     public function User(){

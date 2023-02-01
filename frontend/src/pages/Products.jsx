@@ -19,7 +19,6 @@ import Spinner from "../components/Spinner";
 import { allProducts } from "../features/products/productsSlice";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
-import ImageSlider from "../components/ImageSlider";
 import { addToCart } from "../features/cart/cartSlice";
 
 const Products = () => {
@@ -43,18 +42,6 @@ const Products = () => {
 
     return (
         <div className="container-products">
-            <Box
-                m={"auto"}
-                borderBottom={"2px"}
-                borderColor="teal"
-                borderRadius={"md"}
-                py={"10"}
-                w="60%"
-                p={4}
-                color="white"
-            >
-                <ImageSlider slides={products} />
-            </Box>
             <div className="container-start">
                 {error && <div>{error}</div>}
                 {loading ? (
