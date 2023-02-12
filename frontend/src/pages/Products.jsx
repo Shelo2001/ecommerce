@@ -75,14 +75,24 @@ const Products = () => {
                                     <Box p="6">
                                         <Box d="flex" alignItems="baseline">
                                             {p.created_at && (
-                                                <Badge
-                                                    rounded="full"
-                                                    px="2"
-                                                    fontSize="0.8em"
-                                                    colorScheme="red"
-                                                >
-                                                    New
-                                                </Badge>
+                                                <>
+                                                    <Badge
+                                                        rounded="full"
+                                                        px="2"
+                                                        fontSize="0.8em"
+                                                        colorScheme="green"
+                                                    >
+                                                        New
+                                                    </Badge>{" "}
+                                                    <Badge
+                                                        rounded="full"
+                                                        px="2"
+                                                        fontSize="0.8em"
+                                                        colorScheme="red"
+                                                    >
+                                                        {p.category}
+                                                    </Badge>
+                                                </>
                                             )}
                                         </Box>
                                         <Flex

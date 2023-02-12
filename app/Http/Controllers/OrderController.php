@@ -71,5 +71,10 @@ class OrderController extends Controller
         return response([$orders]);
     }
 
+    public function deleteMyOrders($orderid){
+        $orders = Order::where("order_id", $orderid)->delete();
+
+        return response(['successfully deleted']);
+    }
 
 }

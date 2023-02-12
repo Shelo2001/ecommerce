@@ -40,4 +40,5 @@ Route::get('/products/{id}',[ProductController::class,'getProduct']);
 Route::post('/order/update/{orderid}',[OrderController::class,'updateOrderPayOnDelivery']);
 Route::post('/order/pay/{orderid}',[OrderController::class,'payOrder']);
 Route::get('/order/myorders/{userid}',[OrderController::class,'myOrders']);
+Route::delete('/order/delete/{orderid}',[OrderController::class,'deleteMyOrders']);
 

@@ -19,7 +19,7 @@ import {
 import React, { useEffect } from "react";
 import { Link as ReachLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { myOrders } from "../features/order/orderSlice";
+import { deleteMyOrders, myOrders } from "../features/order/orderSlice";
 
 const MyOrders = ({ name, id }) => {
     const dispatch = useDispatch();
@@ -30,8 +30,24 @@ const MyOrders = ({ name, id }) => {
         dispatch(myOrders(id));
     }, []);
 
-    const clickHandler = (e) => {
-        console.log(e);
+    const deleteOrderHandler = (id) => {
+        Swal.fire({
+            title: "Are you sure you want to delete an order?",
+            confirmButtonText: "Yes",
+            showCancelButton: true,
+            confirmButtonColor: "rgb(49, 151, 149)",
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(deleteMyOrders(id));
+                Swal.fire({
+                    icon: "success",
+                    title: "Order deleted successfully",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+        });
     };
 
     return (
@@ -132,6 +148,11 @@ const MyOrders = ({ name, id }) => {
                                                 </Tooltip>
                                             ) : (
                                                 <Button
+                                                    onClick={() =>
+                                                        deleteOrderHandler(
+                                                            order.order_id
+                                                        )
+                                                    }
                                                     color={"white"}
                                                     bg={"red.400"}
                                                     _hover={{

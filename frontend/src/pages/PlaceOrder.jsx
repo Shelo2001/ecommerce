@@ -100,7 +100,6 @@ const PlaceOrder = () => {
                                             <Th>Item</Th>
                                             <Th>Quantity</Th>
                                             <Th>Price</Th>
-                                            <Th></Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody>
@@ -129,18 +128,6 @@ const PlaceOrder = () => {
                                                     </Stack>
                                                 </Td>
                                                 <Td>${c.price * c.quantity}</Td>
-                                                <Td>
-                                                    <Button
-                                                        ml={"52"}
-                                                        color={"white"}
-                                                        bg={"red.400"}
-                                                        _hover={{
-                                                            bg: "red.600",
-                                                        }}
-                                                    >
-                                                        <i class="fa-solid fa-trash"></i>
-                                                    </Button>
-                                                </Td>
                                             </Tr>
                                         ))}
                                     </Tbody>

@@ -117,6 +117,20 @@ export const myOrders = createAsyncThunk("order/myOrders", async (id) => {
     }
 });
 
+export const deleteMyOrders = createAsyncThunk(
+    "order/deleteMyOrders",
+    async (id) => {
+        try {
+            const { data } = await axios.delete(
+                `${import.meta.env.VITE_BASE_API_URL}/order/delete/${id}`
+            );
+            return data;
+        } catch (error) {
+            return error;
+        }
+    }
+);
+
 export const orderSlice = createSlice({
     name: "orders",
     initialState,
@@ -197,11 +211,20 @@ export const orderSlice = createSlice({
         [myOrders.fulfilled]: (state, { payload }) => {
             state.loading = false;
             state.myOrders = payload[0];
-            state.success = true;
         },
         [myOrders.rejected]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
+        },
+        [deleteMyOrders.pending]: (state) => {
+            state.loading = true;
+        },
+        [deleteMyOrders.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.success = true;
+        },
+        [deleteMyOrders.rejected]: (state, { payload }) => {
+            state.loading = false;
         },
     },
 });
