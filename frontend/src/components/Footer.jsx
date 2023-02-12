@@ -26,12 +26,8 @@ const Footer = () => {
                     align={{ base: "center", md: "center" }}
                 >
                     <Text>© {new Date().getFullYear()} Store.</Text>
-                    <Stack direction={"row"} spacing={6}>
-                        <a href="linkedin.com">
-                            <Button label={"YouTube"} href={"#"}>
-                                <i class="fa-brands fa-linkedin"></i>
-                            </Button>
-                        </a>
+                    <Stack direction={"row"} spacing={6} align={"center"}>
+                        <Text>Made by Akaki Shelia</Text>
                         <a href="https://github.com/Shelo2001?tab=repositories">
                             <Button label={"Instagram"} href={"#"}>
                                 <i class="fa-brands fa-github"></i>
