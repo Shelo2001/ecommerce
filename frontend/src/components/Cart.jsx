@@ -64,7 +64,7 @@ const Cart = () => {
                 onClose={onClose}
             >
                 <DrawerOverlay />
-                <DrawerContent overflow="scroll">
+                <DrawerContent>
                     <DrawerCloseButton />
                     <DrawerHeader>Shopping Cart</DrawerHeader>
 

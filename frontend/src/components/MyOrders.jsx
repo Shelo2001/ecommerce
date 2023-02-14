@@ -15,6 +15,15 @@ import {
     Alert,
     AlertIcon,
     Tooltip,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    useDisclosure,
+    ButtonGroup,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { Link as ReachLink } from "react-router-dom";
@@ -29,7 +38,7 @@ const MyOrders = ({ name, id }) => {
     useEffect(() => {
         dispatch(myOrders(id));
     }, []);
-
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const deleteOrderHandler = (id) => {
         Swal.fire({
             title: "Are you sure you want to delete an order?",
@@ -48,6 +57,11 @@ const MyOrders = ({ name, id }) => {
                 });
             }
         });
+    };
+
+    const doubleClickHandler = (id) => {
+        console.log(id);
+        onOpen();
     };
 
     return (
@@ -83,60 +97,91 @@ const MyOrders = ({ name, id }) => {
                         <Tbody>
                             {myOrdersArray?.map((order) => (
                                 <>
-                                    <Tr>
-                                        <Td>{name}</Td>
-                                        <Td color={"teal"}>
-                                            <Link
-                                                as={ReachLink}
-                                                to={`/order/${order.order_id}`}
-                                            >
-                                                {order.order_id}
-                                            </Link>
-                                        </Td>
-                                        <Td>
-                                            {order.is_paid ? (
-                                                <Box color={"teal"}>
-                                                    <i class="fa-solid fa-check"></i>
-                                                </Box>
-                                            ) : (
-                                                <Box color={"red.600"}>
-                                                    <i class="fa-solid fa-x"></i>
-                                                </Box>
-                                            )}
-                                        </Td>
-                                        <Td>
-                                            {order.payment_id === "" ? (
-                                                <Box color={"red.600"}>
-                                                    <i class="fa-solid fa-x"></i>
-                                                </Box>
-                                            ) : (
-                                                order.payment_id
-                                            )}
-                                        </Td>
-                                        <Td>
-                                            {order.is_delivered ? (
-                                                <Box color={"teal"}>
-                                                    <i class="fa-solid fa-check"></i>
-                                                </Box>
-                                            ) : order.pay_on_delivery ? (
-                                                <Box color={"blue.600"}>
-                                                    Pay on delivery
-                                                </Box>
-                                            ) : (
-                                                <Box color={"red.600"}>
-                                                    <i class="fa-solid fa-x"></i>
-                                                </Box>
-                                            )}
-                                        </Td>
-                                        <Td>{order.created_at.slice(0, 10)}</Td>
-                                        <Td>
-                                            {order.is_paid ? (
-                                                <Tooltip
-                                                    placement="left"
-                                                    label="You can not cancel order, as price is already paid"
+                                    <Tooltip
+                                        placement="left"
+                                        label="double click to see info"
+                                    >
+                                        <Tr
+                                            _hover={{
+                                                bg: "gray.100",
+                                            }}
+                                            onDoubleClick={() =>
+                                                doubleClickHandler(
+                                                    order.order_id
+                                                )
+                                            }
+                                        >
+                                            <Td>{name}</Td>
+                                            <Td color={"teal"}>
+                                                <Link
+                                                    as={ReachLink}
+                                                    to={`/order/${order.order_id}`}
                                                 >
+                                                    {order.order_id}
+                                                </Link>
+                                            </Td>
+                                            <Td>
+                                                {order.is_paid ? (
+                                                    <Box color={"teal"}>
+                                                        <i class="fa-solid fa-check"></i>
+                                                    </Box>
+                                                ) : (
+                                                    <Box color={"red.600"}>
+                                                        <i class="fa-solid fa-x"></i>
+                                                    </Box>
+                                                )}
+                                            </Td>
+                                            <Td>
+                                                {order.payment_id === "" ? (
+                                                    <Box color={"red.600"}>
+                                                        <i class="fa-solid fa-x"></i>
+                                                    </Box>
+                                                ) : (
+                                                    order.payment_id
+                                                )}
+                                            </Td>
+                                            <Td>
+                                                {order.is_delivered ? (
+                                                    <Box color={"teal"}>
+                                                        <i class="fa-solid fa-check"></i>
+                                                    </Box>
+                                                ) : order.pay_on_delivery ? (
+                                                    <Box color={"blue.600"}>
+                                                        Pay on delivery
+                                                    </Box>
+                                                ) : (
+                                                    <Box color={"red.600"}>
+                                                        <i class="fa-solid fa-x"></i>
+                                                    </Box>
+                                                )}
+                                            </Td>
+                                            <Td>
+                                                {order.created_at.slice(0, 10)}
+                                            </Td>
+                                            <Td>
+                                                {order.is_paid ? (
+                                                    <Tooltip
+                                                        placement="left"
+                                                        label="You can not cancel order, as price is already paid"
+                                                    >
+                                                        <Button
+                                                            isDisabled
+                                                            color={"white"}
+                                                            bg={"red.400"}
+                                                            _hover={{
+                                                                bg: "red.600",
+                                                            }}
+                                                        >
+                                                            Cancel order
+                                                        </Button>
+                                                    </Tooltip>
+                                                ) : (
                                                     <Button
-                                                        isDisabled
+                                                        onClick={() =>
+                                                            deleteOrderHandler(
+                                                                order.order_id
+                                                            )
+                                                        }
                                                         color={"white"}
                                                         bg={"red.400"}
                                                         _hover={{
@@ -145,31 +190,43 @@ const MyOrders = ({ name, id }) => {
                                                     >
                                                         Cancel order
                                                     </Button>
-                                                </Tooltip>
-                                            ) : (
-                                                <Button
-                                                    onClick={() =>
-                                                        deleteOrderHandler(
-                                                            order.order_id
-                                                        )
-                                                    }
-                                                    color={"white"}
-                                                    bg={"red.400"}
-                                                    _hover={{
-                                                        bg: "red.600",
-                                                    }}
-                                                >
-                                                    Cancel order
-                                                </Button>
-                                            )}
-                                        </Td>
-                                    </Tr>
+                                                )}
+                                            </Td>
+                                        </Tr>
+                                    </Tooltip>
                                 </>
                             ))}
                         </Tbody>
                     </Table>
                 </TableContainer>
             )}
+
+            <Modal isCentered isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Modal Title</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <p>
+                            asdsadsdsdsadsdadasdasasdsadsdsdsadsdadasdasasdsadsdsdsadsdadasdasasdsadsdsdsadsdadasdas
+                        </p>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <ButtonGroup>
+                            <Button
+                                colorScheme="red"
+                                color={"white"}
+                                mr={3}
+                                onClick={onClose}
+                            >
+                                Close
+                            </Button>
+                            <Button colorScheme="teal">Secondary Action</Button>
+                        </ButtonGroup>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </div>
     );
 };

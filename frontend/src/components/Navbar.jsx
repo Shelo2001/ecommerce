@@ -6,6 +6,7 @@ import {
     MenuItem,
     MenuList,
     Text,
+    useColorMode,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -16,7 +17,7 @@ import Cart from "./Cart";
 const Navbar = () => {
     const dispatch = useDispatch();
     const userFromStorage = JSON.parse(localStorage.getItem("user"));
-
+    const { colorMode, toggleColorMode } = useColorMode();
     const logoutHandler = () => {
         dispatch(logout());
     };
@@ -55,13 +56,42 @@ const Navbar = () => {
                                     </MenuGroup>
                                 </MenuList>
                             </Menu>
+                            <Button
+                                backgroundColor={"transparent"}
+                                _hover={{ backgroundColor: "transparent" }}
+                                onClick={toggleColorMode}
+                            >
+                                {colorMode === "light" ? (
+                                    <i class="fa-solid fa-moon"></i>
+                                ) : (
+                                    <i
+                                        style={{ color: "yellow" }}
+                                        class="fa-solid fa-sun"
+                                    ></i>
+                                )}
+                            </Button>
                         </>
                     ) : (
                         <>
                             <Cart />
+
                             <Link to="/login">
                                 <i className="fa-solid fa-user"></i>
                             </Link>
+                            <Button
+                                backgroundColor={"transparent"}
+                                _hover={{ backgroundColor: "transparent" }}
+                                onClick={toggleColorMode}
+                            >
+                                {colorMode === "light" ? (
+                                    <i class="fa-solid fa-moon"></i>
+                                ) : (
+                                    <i
+                                        style={{ color: "yellow" }}
+                                        class="fa-solid fa-sun"
+                                    ></i>
+                                )}
+                            </Button>
                         </>
                     )}
                 </div>

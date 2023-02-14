@@ -6,6 +6,10 @@ const theme = extendTheme({
         body: `Heebo`,
         heading: `Heebo`,
     },
+    config: {
+        initialColorMode: "light",
+        useSystemColorMode: false,
+    },
 });
 
 export default theme;
