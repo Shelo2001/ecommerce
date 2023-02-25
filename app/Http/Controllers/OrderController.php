@@ -6,6 +6,7 @@ use App\Models\Order;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\User;
+use PDF;
 
 class OrderController extends Controller
 {
@@ -61,7 +62,8 @@ class OrderController extends Controller
             $order->update(['payment_status' => $request['payment_status']]);
             $order->save();
         }
-        
+        $pdf = PDF::loadView('invoice', compact('orders'));
+        $pdf->download('invoice.pdf');
         return response([$order]);
     }
 
