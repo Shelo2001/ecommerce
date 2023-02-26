@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\Order;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\User;
-use PDF;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -62,8 +63,8 @@ class OrderController extends Controller
             $order->update(['payment_status' => $request['payment_status']]);
             $order->save();
         }
-        $pdf = PDF::loadView('invoice', compact('orders'));
-        $pdf->download('invoice.pdf');
+        
+
         return response([$order]);
     }
 
@@ -77,6 +78,26 @@ class OrderController extends Controller
         $orders = Order::where("order_id", $orderid)->delete();
 
         return response(['successfully deleted']);
+    }
+
+    public function generateInvoice($orderid){
+        $orders = Order::where("order_id", $orderid)->get();
+        
+        
+        $orderItems = $orders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'title' => $order->title,
+                'quantity' => $order->quantity,
+                'price' => $order->price*$order->quantity,
+                'created_at'=>$order->created_at,
+            ];
+        })->toArray();
+
+        $pdf = PDF::loadView('invoice', compact('orderItems'));
+       
+
+        return $pdf->download('invoice.pdf');
     }
 
 }

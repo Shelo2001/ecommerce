@@ -51,10 +51,10 @@
 <body>
 	<div class="container">
 		<div class="header">
-			<img src="path/to/logo.png" alt="Logo" class="logo">
+			<h1>Ecommerceshop.online</h1>
 			<div class="details">
-				<p>Invoice Number: 12345</p>
-				<p>Date: 2023-02-25</p>
+				<p>Invoice Number:{{ $orderItems[0]['id']}}</p>
+				<p>Date: {{ $orderItems[0]['created_at']}}</p>
 			</div>
 		</div>
 		<table class="invoice-table">
@@ -67,24 +67,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>Product 1</td>
-					<td>2</td>
-					<td>$10.00</td>
-					<td>$20.00</td>
-				</tr>
-				<tr>
-					<td>Product 2</td>
-					<td>1</td>
-					<td>$20.00</td>
-					<td>$20.00</td>
-				</tr>
+				
+					@foreach ($orderItems as $item)
+					<tr>
+						<td>{{$item['title']}}</td>
+						<td>{{$item['quantity']}}</td>
+						<td>{{$item['price']}}</td>
+						<td>{{$item['price']}}</td>
+						
+					</tr>
+					@endforeach
 			</tbody>
 		</table>
-		<div class="invoice-total">
-			<span>Total:</span>
-			<span>$40.00</span>
-		</div>
+		
 	</div>
 </body>
 </html>

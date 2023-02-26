@@ -28,7 +28,11 @@ import {
 import React, { useEffect } from "react";
 import { Link as ReachLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteMyOrders, myOrders } from "../features/order/orderSlice";
+import {
+    deleteMyOrders,
+    generateInvoice,
+    myOrders,
+} from "../features/order/orderSlice";
 
 const MyOrders = ({ name, id }) => {
     const dispatch = useDispatch();
@@ -62,6 +66,11 @@ const MyOrders = ({ name, id }) => {
     const doubleClickHandler = (id) => {
         console.log(id);
         onOpen();
+    };
+
+    const generateInvoiceHandler = (orderid) => {
+        console.log(id);
+        generateInvoice(orderid);
     };
 
     return (
@@ -160,21 +169,18 @@ const MyOrders = ({ name, id }) => {
                                             </Td>
                                             <Td>
                                                 {order.is_paid ? (
-                                                    <Tooltip
-                                                        placement="left"
-                                                        label="You can not cancel order, as price is already paid"
+                                                    <Button
+                                                        colorScheme={"teal"}
+                                                        onClick={() =>
+                                                            (window.location.href =
+                                                                import.meta.env
+                                                                    .VITE_BASE_API_URL +
+                                                                "/order/myorders/generateinvoice/" +
+                                                                order.order_id)
+                                                        }
                                                     >
-                                                        <Button
-                                                            isDisabled
-                                                            color={"white"}
-                                                            bg={"red.400"}
-                                                            _hover={{
-                                                                bg: "red.600",
-                                                            }}
-                                                        >
-                                                            Cancel order
-                                                        </Button>
-                                                    </Tooltip>
+                                                        Generate Invoice
+                                                    </Button>
                                                 ) : (
                                                     <Button
                                                         onClick={() =>

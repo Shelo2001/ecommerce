@@ -6,6 +6,9 @@
     margin-right: 30px;
     gap: 10px;
 }
+::-webkit-scrollbar {
+    display: none;
+}
 .container-products {
     display: flex;
     justify-content: center;

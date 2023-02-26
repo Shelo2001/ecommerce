@@ -99,6 +99,7 @@ export const payOrder = createAsyncThunk(
                 }`,
                 paymentData
             );
+
             return data;
         } catch (error) {
             return error;
@@ -125,6 +126,21 @@ export const deleteMyOrders = createAsyncThunk(
                 `${import.meta.env.VITE_BASE_API_URL}/order/delete/${id}`
             );
             return data;
+        } catch (error) {
+            return error;
+        }
+    }
+);
+
+export const generateInvoice = createAsyncThunk(
+    "order/generateInvoice",
+    async (orderid) => {
+        try {
+            await axios.get(
+                `${
+                    import.meta.env.VITE_BASE_API_URL
+                }/order/myorders/generateinvoice/${orderid}`
+            );
         } catch (error) {
             return error;
         }
@@ -224,6 +240,16 @@ export const orderSlice = createSlice({
             state.success = true;
         },
         [deleteMyOrders.rejected]: (state, { payload }) => {
+            state.loading = false;
+        },
+        [generateInvoice.pending]: (state) => {
+            state.loading = true;
+        },
+        [generateInvoice.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.success = true;
+        },
+        [generateInvoice.rejected]: (state, { payload }) => {
             state.loading = false;
         },
     },
