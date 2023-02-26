@@ -26,6 +26,7 @@ import {
     Tr,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link as ReachLink } from "react-router-dom";
 import Steps from "../components/Steps";
@@ -37,6 +38,7 @@ import {
 
 const Checkout = () => {
     const { cart } = useSelector((state) => state.cart);
+    const { t } = useTranslation();
 
     const navigate = useNavigate();
 
@@ -73,14 +75,14 @@ const Checkout = () => {
                             <TableContainer>
                                 <Table variant="simple">
                                     <TableCaption>
-                                        Shopping Cart Review
+                                        {t("Shopping Cart Review.1")}
                                     </TableCaption>
                                     <Thead>
                                         <Tr>
                                             <Th></Th>
-                                            <Th>Item</Th>
-                                            <Th>Quantity</Th>
-                                            <Th>Price</Th>
+                                            <Th>{t("Item.1")}</Th>
+                                            <Th>{t("Quantity.1")}</Th>
+                                            <Th>{t("Price.1")}</Th>
                                             <Th></Th>
                                         </Tr>
                                     </Thead>
@@ -168,16 +170,18 @@ const Checkout = () => {
                     ) : (
                         <Alert status="info">
                             <AlertIcon />
-                            No items in cart.{" "}
+                            {t("No items in cart.1")}.{" "}
                             <Link as={ReachLink} colorScheme={"teal"} to="/">
-                                Go back to shopping
+                                {t("Go back to shopping.1")}
                             </Link>
                         </Alert>
                     )}
                     <Box flex={1}>
                         <Card>
                             <CardHeader>
-                                <Heading size="md">Cart Summary</Heading>
+                                <Heading size="md">
+                                    {t("Cart Summary.1")}
+                                </Heading>
                             </CardHeader>
                             <Divider />
                             <CardBody>
@@ -187,10 +191,10 @@ const Checkout = () => {
                                             size="xs"
                                             textTransform="uppercase"
                                         >
-                                            Items
+                                            {t("Items.1")}
                                         </Heading>
                                         <Text pt="2" fontSize="sm">
-                                            Overall {cart.length} items in cart
+                                            {cart.length} {t("items in cart.1")}
                                         </Text>
                                     </Box>
                                     <Box>
@@ -198,7 +202,7 @@ const Checkout = () => {
                                             size="xs"
                                             textTransform="uppercase"
                                         >
-                                            Items Price
+                                            {t("Items Price.1")}
                                         </Heading>
                                         <Text pt="2" fontSize="sm">
                                             {cart
@@ -221,7 +225,7 @@ const Checkout = () => {
                                                 onClick={navigateToShipping}
                                                 colorScheme={"teal"}
                                             >
-                                                Proceed to checkout
+                                                {t("Proceed to checkout.1")}
                                             </Button>
                                         ) : (
                                             <Button
@@ -229,7 +233,7 @@ const Checkout = () => {
                                                 isDisabled
                                                 colorScheme={"teal"}
                                             >
-                                                Proceed to checkout
+                                                {t("Proceed to checkout.1")}
                                             </Button>
                                         )}
                                     </Box>

@@ -22,10 +22,12 @@ import { allProducts } from "../features/products/productsSlice";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import { addToCart } from "../features/cart/cartSlice";
+import { useTranslation } from "react-i18next";
 
 const Products = () => {
     const dispatch = useDispatch();
     const { products, loading, error } = useSelector((state) => state.products);
+    const { t } = useTranslation();
 
     useEffect(() => {
         dispatch(allProducts());
@@ -36,7 +38,7 @@ const Products = () => {
         dispatch(addToCart(newProduct));
         Swal.fire({
             icon: "success",
-            title: "Product added in cart",
+            title: t("Product added in cart.1"),
             showConfirmButton: false,
             timer: 1000,
         });
@@ -51,7 +53,7 @@ const Products = () => {
                 ) : (
                     <>
                         {products.map((p) => (
-                            <Tooltip label="Details" placement="top">
+                            <Tooltip label={t("Details.1")} placement="top">
                                 <Box
                                     _hover={{
                                         transform: "scale(1.05)",
@@ -82,7 +84,7 @@ const Products = () => {
                                                         fontSize="0.8em"
                                                         colorScheme="green"
                                                     >
-                                                        New
+                                                        {t("New.1")}
                                                     </Badge>{" "}
                                                     <Badge
                                                         rounded="full"
@@ -113,7 +115,7 @@ const Products = () => {
                                             </Link>
                                             {p.quantity > 0 ? (
                                                 <Tooltip
-                                                    label="Add to cart"
+                                                    label={t(`Add to cart.1`)}
                                                     placement={"top"}
                                                     fontSize={"1.2em"}
                                                 >
@@ -135,7 +137,9 @@ const Products = () => {
                                                 </Tooltip>
                                             ) : (
                                                 <Tooltip
-                                                    label="No items in cart"
+                                                    label={t(
+                                                        "No items in stock.1"
+                                                    )}
                                                     placement={"top"}
                                                     fontSize={"1.2em"}
                                                 >

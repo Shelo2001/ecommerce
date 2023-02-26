@@ -10,6 +10,7 @@ import {
 import { Formik } from "formik";
 import { FormControl, InputControl, SubmitButton } from "formik-chakra-ui";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { Link as ReachLink } from "react-router-dom";
 import * as Yup from "yup";
@@ -29,6 +30,7 @@ const Login = () => {
         email: Yup.string().email().required(),
         password: Yup.string().min(6).required(),
     });
+    const { t } = useTranslation();
 
     return (
         <>
@@ -48,7 +50,7 @@ const Login = () => {
                         >
                             <Stack align={"center"}>
                                 <Heading fontSize={"3xl"}>
-                                    Sign in to your account
+                                    {t("Sign in to your account.1")}
                                 </Heading>
                             </Stack>
                             <Box
@@ -61,33 +63,33 @@ const Login = () => {
                                     <InputControl
                                         isRequired
                                         name="email"
-                                        label="Email"
+                                        label={t("Email.1")}
                                     />
                                     <InputControl
                                         isRequired
                                         name="password"
                                         inputProps={{ type: "password" }}
-                                        label="Password"
+                                        label={t("Password.1")}
                                     />
 
                                     <Button
                                         onClick={handleSubmit}
                                         colorScheme="teal"
                                     >
-                                        Sign in
+                                        {t("Sign in.1")}
                                     </Button>
                                     <Text
                                         textAlign={"center"}
                                         fontSize={"lg"}
                                         color={"gray.600"}
                                     >
-                                        Don't have an account?{" "}
+                                        {t("Don't have an account.1")}?{" "}
                                         <Link
                                             as={ReachLink}
                                             to="/register"
                                             color="teal"
                                         >
-                                            Register here
+                                            {t("Register here.1")}
                                         </Link>{" "}
                                         ✌️
                                     </Text>

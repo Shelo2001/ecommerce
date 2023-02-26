@@ -30,11 +30,13 @@ import {
     incrementQuantity,
     removeItem,
 } from "../features/cart/cartSlice";
+import { useTranslation } from "react-i18next";
 
 const Cart = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { cart } = useSelector((state) => state.cart);
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     const decreaseQuantityHandler = (id) => {
         dispatch(decrementQuantity(id));
@@ -66,7 +68,7 @@ const Cart = () => {
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
-                    <DrawerHeader>Shopping Cart</DrawerHeader>
+                    <DrawerHeader>{t("Shopping Cart.1")}</DrawerHeader>
 
                     <DrawerBody
                         display={"flex"}
@@ -172,13 +174,13 @@ const Cart = () => {
                         ) : (
                             <Alert status="info">
                                 <AlertIcon />
-                                No Items In Cart Yet !
+                                {t("No Items In Cart Yet.1")} !
                             </Alert>
                         )}
                     </DrawerBody>
                     <DrawerFooter>
                         <Text fontSize={32} fontWeight={"extrabold"}>
-                            Summary: $
+                            {t("Summary.1")}: $
                             {cart
                                 .reduce(
                                     (acc, item) =>
@@ -192,21 +194,21 @@ const Cart = () => {
                     <Divider />
                     <DrawerFooter>
                         <Button variant="outline" mr={3} onClick={onClose}>
-                            Cancel
+                            {t("Cancel.1")}
                         </Button>
                         {cart.length > 0 ? (
                             <Link to="/checkout">
                                 <Button onClick={onClose} colorScheme="teal">
-                                    Checkout
+                                    {t("Checkout.1")}
                                 </Button>
                             </Link>
                         ) : (
                             <Tooltip
                                 placement="top"
-                                label="Cannot proceed to checkout"
+                                label={t("Cannot proceed to checkout.1")}
                             >
                                 <Button isDisabled colorScheme="teal">
-                                    Review Cart
+                                    {t("Review Cart.1")}
                                 </Button>
                             </Tooltip>
                         )}

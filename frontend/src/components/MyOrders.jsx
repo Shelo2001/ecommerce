@@ -33,10 +33,11 @@ import {
     generateInvoice,
     myOrders,
 } from "../features/order/orderSlice";
+import { useTranslation } from "react-i18next";
 
 const MyOrders = ({ name, id }) => {
     const dispatch = useDispatch();
-
+    const { t } = useTranslation();
     const { myOrders: myOrdersArray } = useSelector((state) => state.order);
 
     useEffect(() => {
@@ -45,8 +46,8 @@ const MyOrders = ({ name, id }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const deleteOrderHandler = (id) => {
         Swal.fire({
-            title: "Are you sure you want to delete an order?",
-            confirmButtonText: "Yes",
+            title: t("Are you sure you want to delete an order?.1"),
+            confirmButtonText: t("Yes.1"),
             showCancelButton: true,
             confirmButtonColor: "rgb(49, 151, 149)",
             cancelButtonColor: "#d33",
@@ -55,7 +56,7 @@ const MyOrders = ({ name, id }) => {
                 dispatch(deleteMyOrders(id));
                 Swal.fire({
                     icon: "success",
-                    title: "Order deleted successfully",
+                    title: t("Order deleted successfully.1"),
                     showConfirmButton: false,
                     timer: 1500,
                 });
@@ -68,38 +69,33 @@ const MyOrders = ({ name, id }) => {
         onOpen();
     };
 
-    const generateInvoiceHandler = (orderid) => {
-        console.log(id);
-        generateInvoice(orderid);
-    };
-
     return (
         <div>
             {myOrdersArray.length === 0 ? (
                 <Alert status="info">
                     <AlertIcon />
-                    You dont have any orders yet.
+                    {t("You dont have any orders yet.1")}
                 </Alert>
             ) : (
                 <TableContainer mt={"10"}>
                     <Table size="md" w={{ sm: "full" }}>
                         <TableCaption>
                             <Text autoCapitalize="true">
-                                Note for customers: if you don't pay order price
-                                within a 3 day or don't choose pay on delivery,
-                                the order will be automatically deleted from
-                                database after 3 days!{" "}
+                                {t(
+                                    "Note for customers: if you don't pay order price within a 3 day or don't choose pay on delivery, the order will be automatically deleted from database after 3 days.1"
+                                )}
+                                !{" "}
                             </Text>
                         </TableCaption>
 
                         <Thead>
                             <Tr>
                                 <Th>{name}</Th>
-                                <Th>Order id</Th>
-                                <Th>Payment status</Th>
-                                <Th>Payment id</Th>
-                                <Th>Delivery status</Th>
-                                <Th>Create date</Th>
+                                <Th>{t("Order id.1")}</Th>
+                                <Th>{t("Payment status.1")}</Th>
+                                <Th>{t("Payment id.1")}</Th>
+                                <Th>{t("Delivery status.1")}</Th>
+                                <Th>{t("Create date.1")}</Th>
                                 <Th></Th>
                             </Tr>
                         </Thead>
@@ -156,7 +152,7 @@ const MyOrders = ({ name, id }) => {
                                                     </Box>
                                                 ) : order.pay_on_delivery ? (
                                                     <Box color={"blue.600"}>
-                                                        Pay on delivery
+                                                        {t("Pay on delivery.1")}
                                                     </Box>
                                                 ) : (
                                                     <Box color={"red.600"}>
@@ -178,8 +174,11 @@ const MyOrders = ({ name, id }) => {
                                                                 "/order/myorders/generateinvoice/" +
                                                                 order.order_id)
                                                         }
+                                                        width="100%"
                                                     >
-                                                        Generate Invoice
+                                                        {t(
+                                                            "Generate Invoice.1"
+                                                        )}
                                                     </Button>
                                                 ) : (
                                                     <Button
@@ -193,8 +192,9 @@ const MyOrders = ({ name, id }) => {
                                                         _hover={{
                                                             bg: "red.600",
                                                         }}
+                                                        width="100%"
                                                     >
-                                                        Cancel order
+                                                        {t("Cancel order.1")}
                                                     </Button>
                                                 )}
                                             </Td>

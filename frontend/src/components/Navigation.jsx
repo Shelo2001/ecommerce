@@ -3,9 +3,11 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import Profile from "./Profile";
 import { useParams } from "react-router";
 import MyOrders from "./MyOrders";
+import { useTranslation } from "react-i18next";
 
 const Navigation = () => {
     const { id, name } = useParams();
+    const { t } = useTranslation();
 
     return (
         <Tabs
@@ -17,10 +19,10 @@ const Navigation = () => {
         >
             <TabList>
                 <Tab fontSize={"2xl"} fontWeight="bold">
-                    Profile
+                    {t("Profile.1")}
                 </Tab>
                 <Tab fontSize={"2xl"} fontWeight="bold">
-                    My orders
+                    {t("My orders.1")}
                 </Tab>
             </TabList>
             <TabPanels>

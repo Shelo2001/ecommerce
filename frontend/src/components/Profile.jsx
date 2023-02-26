@@ -14,8 +14,10 @@ import {
     InputLeftAddon,
     InputGroup,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 const Profile = ({ id }) => {
+    const { t } = useTranslation();
     const initialValues = {
         email: "",
         name: "",
@@ -47,7 +49,7 @@ const Profile = ({ id }) => {
                         >
                             <Stack align={"center"}>
                                 <Heading fontSize={"3xl"}>
-                                    Update your profile
+                                    {t("Update your profile.1")}
                                 </Heading>
                             </Stack>
                             <Box
@@ -57,8 +59,14 @@ const Profile = ({ id }) => {
                                 p={8}
                             >
                                 <Stack spacing={4}>
-                                    <InputControl name="name" label="Name" />
-                                    <InputControl name="email" label="Email" />
+                                    <InputControl
+                                        name="name"
+                                        label={t("Name.1")}
+                                    />
+                                    <InputControl
+                                        name="email"
+                                        label={t("Email.1")}
+                                    />
                                     <InputGroup>
                                         <InputLeftAddon children="+995" />
                                         <InputControl name="phone_number" />
@@ -68,7 +76,7 @@ const Profile = ({ id }) => {
                                         onClick={handleSubmit}
                                         colorScheme="teal"
                                     >
-                                        Update profile
+                                        {t("Update profile.1")}
                                     </Button>
                                 </Stack>
                             </Box>

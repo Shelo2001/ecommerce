@@ -16,12 +16,14 @@ import { Link as ReachLink } from "react-router-dom";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../features/users/usersSlice";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
     const dispatch = useDispatch();
     const onSubmit = (values) => {
         dispatch(registerUser(values));
     };
+    const { t } = useTranslation();
     const initialValues = {
         email: "",
         name: "",
@@ -54,7 +56,7 @@ const Register = () => {
                     <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
                         <Stack align={"center"}>
                             <Heading fontSize={"3xl"}>
-                                Register to your account
+                                {t("Register to your account.1")}
                             </Heading>
                         </Stack>
                         <Box
@@ -67,12 +69,12 @@ const Register = () => {
                                 <InputControl
                                     isRequired
                                     name="name"
-                                    label="Name"
+                                    label={t("Name.1")}
                                 />
                                 <InputControl
                                     isRequired
                                     name="email"
-                                    label="Email"
+                                    label={t("Email.1")}
                                 />
                                 <InputGroup>
                                     <InputLeftAddon children="+995" />
@@ -85,32 +87,32 @@ const Register = () => {
                                     isRequired
                                     name="password"
                                     inputProps={{ type: "password" }}
-                                    label="Password"
+                                    label={t("Password.1")}
                                 />
                                 <InputControl
                                     isRequired
                                     name="confirmPassword"
                                     inputProps={{ type: "password" }}
-                                    label="Confirm Password"
+                                    label={t("Confirm Password.1")}
                                 />
                                 <Button
                                     onClick={handleSubmit}
                                     colorScheme="teal"
                                 >
-                                    Sign up
+                                    {t("Sign Up.1")}
                                 </Button>
                                 <Text
                                     textAlign={"center"}
                                     fontSize={"lg"}
                                     color={"gray.600"}
                                 >
-                                    Already have an account?{" "}
+                                    {t("Already have an account.1")}?{" "}
                                     <Link
                                         as={ReachLink}
                                         to="/login"
                                         color="teal"
                                     >
-                                        Login here
+                                        {t("Login here.1")}
                                     </Link>{" "}
                                     ✌️
                                 </Text>

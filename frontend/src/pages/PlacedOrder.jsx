@@ -33,14 +33,16 @@ import {
     Thead,
     Tr,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { getPlacedProduct } from "../features/products/productsSlice";
+
 const PlacedOrder = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
     const { placedOrder, paymentSuccess } = useSelector((state) => state.order);
     const { placedProducts } = useSelector((state) => state.products);
-
+    const { t } = useTranslation();
     const totalPrice =
         Number(
             placedOrder
@@ -98,8 +100,8 @@ const PlacedOrder = () => {
 
     const updatePayOnDeliveryHandler = (id) => {
         Swal.fire({
-            title: "Are you sure you want to pay on delivery?",
-            confirmButtonText: "Yes",
+            title: t("Are you sure you want to pay on delivery?.1"),
+            confirmButtonText: t("Yes.1"),
             showCancelButton: true,
             confirmButtonColor: "rgb(49, 151, 149)",
             cancelButtonColor: "#d33",
@@ -128,9 +130,9 @@ const PlacedOrder = () => {
                                     <Thead>
                                         <Tr>
                                             <Th></Th>
-                                            <Th>Item</Th>
-                                            <Th>Quantity</Th>
-                                            <Th>Price</Th>
+                                            <Th>{t("Item.1")}</Th>
+                                            <Th>{t("Quantity.1")}</Th>
+                                            <Th>{t("Price.1")}</Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody>
@@ -158,7 +160,8 @@ const PlacedOrder = () => {
                                                 <Td>
                                                     <Stack>
                                                         <Text fontSize={16}>
-                                                            {c.quantity} item
+                                                            {c.quantity}{" "}
+                                                            {t("item.1")}
                                                         </Text>
                                                     </Stack>
                                                 </Td>
@@ -177,17 +180,17 @@ const PlacedOrder = () => {
                                     fontSize={"20px"}
                                     fontWeight="bold"
                                 >
-                                    Payment status
+                                    {t("Payment status.1")}
                                 </Text>
                                 {placedOrder[0].is_paid ? (
                                     <Alert status="success">
                                         <AlertIcon />
-                                        Order price is paid !!!
+                                        {t("Order price is paid.1")} !!!
                                     </Alert>
                                 ) : (
                                     <Alert status="error">
                                         <AlertIcon />
-                                        Order is not paid yet !!!
+                                        {t("Order is not paid yet.1")} !!!
                                     </Alert>
                                 )}
                             </Box>
@@ -201,12 +204,14 @@ const PlacedOrder = () => {
                                         fontSize={"20px"}
                                         fontWeight="bold"
                                     >
-                                        Delivery information
+                                        {t("Delivery information.1")}
                                     </Text>
                                     <Alert status="info">
                                         <AlertIcon />
-                                        You chose pay on delivery, our courier
-                                        will contact you within a week !!!
+                                        {t(
+                                            "You chose pay on delivery, our courier will contact you within a week.1"
+                                        )}{" "}
+                                        !!!
                                     </Alert>
                                 </Box>
                             ) : (
@@ -221,17 +226,17 @@ const PlacedOrder = () => {
                                     fontSize={"20px"}
                                     fontWeight="bold"
                                 >
-                                    Delivery status
+                                    {t("Delivery status.1")}
                                 </Text>
                                 {placedOrder[0].is_delivered ? (
                                     <Alert status="success">
                                         <AlertIcon />
-                                        Order is delivered !!!
+                                        {t("Order is delivered.1")} !!!
                                     </Alert>
                                 ) : (
                                     <Alert status="error">
                                         <AlertIcon />
-                                        Order is not delivered yet !!!
+                                        {t("Order is not delivered yet.1")} !!!
                                     </Alert>
                                 )}
                             </Box>
@@ -239,16 +244,18 @@ const PlacedOrder = () => {
                     ) : (
                         <Alert status="info">
                             <AlertIcon />
-                            No items in cart.{" "}
+                            {t("No items in cart.1")}.{" "}
                             <Link as={ReachLink} colorScheme={"teal"} to="/">
-                                Go back to shopping
+                                {t("Go back to shopping.1")}
                             </Link>
                         </Alert>
                     )}
                     <Box flex={1}>
                         <Card>
                             <CardHeader>
-                                <Heading size="md">Order Summary</Heading>
+                                <Heading size="md">
+                                    {t("Order Summary.1")}
+                                </Heading>
                             </CardHeader>
 
                             <Divider />
@@ -260,7 +267,9 @@ const PlacedOrder = () => {
                                             size="xs"
                                             textTransform="uppercase"
                                         >
-                                            Price Summary (including shipping)
+                                            {t(
+                                                "Price Summary (including shipping).1"
+                                            )}
                                         </Heading>
                                         <Text pt="2" fontSize="sm">
                                             ${totalPrice}
@@ -307,7 +316,7 @@ const PlacedOrder = () => {
                                                 colorScheme={"teal"}
                                                 w="full"
                                             >
-                                                Pay on delivery
+                                                {t("Pay on delivery.1")}
                                             </Button>
                                         </Box>
                                     )}

@@ -8,6 +8,7 @@ import { InputControl, TextareaControl } from "formik-chakra-ui";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { saveShippingAddress } from "../features/order/orderSlice";
+import { useTranslation } from "react-i18next";
 
 const Shipping = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Shipping = () => {
         dispatch(saveShippingAddress(address));
         navigate("/placeorder");
     };
+    const { t } = useTranslation();
     const initialValues = {
         City: "",
         Street: "",
@@ -65,17 +67,17 @@ const Shipping = () => {
                                     <InputControl
                                         isRequired
                                         name="city"
-                                        label="City"
+                                        label={t("City.1")}
                                     />
                                     <InputControl
                                         isRequired
                                         name="street"
-                                        label="Street"
+                                        label={t("Street.1")}
                                     />
                                     <TextareaControl
                                         isRequired
                                         name="additional_info"
-                                        label="Additional info"
+                                        label={t("Additional info.1")}
                                         rows={10}
                                     />
 
@@ -83,15 +85,15 @@ const Shipping = () => {
                                         onClick={handleSubmit}
                                         colorScheme="teal"
                                     >
-                                        Save Shipping Address
+                                        {t("Save Shipping Address.1")}
                                     </Button>
                                     <Text
                                         textAlign={"center"}
                                         fontSize={"lg"}
                                         color={"gray.600"}
                                     >
-                                        <i class="fa-solid fa-truck"></i> 2-3
-                                        business days delivery 🚀
+                                        <i class="fa-solid fa-truck"></i>
+                                        {t("2-3 business days delivery.1")} 🚀
                                     </Text>
                                 </Stack>
                             </Box>

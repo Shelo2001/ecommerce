@@ -24,6 +24,7 @@ import {
     Tr,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link as ReachLink } from "react-router-dom";
 import Steps from "../components/Steps";
@@ -40,7 +41,7 @@ const PlaceOrder = () => {
     const { address } = shippingAddress;
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const { t } = useTranslation();
     useEffect(() => {
         if (JSON.parse(localStorage.getItem("token")) == null) {
             navigate("/login");
@@ -54,8 +55,8 @@ const PlaceOrder = () => {
 
     const placeOrderHandler = () => {
         Swal.fire({
-            title: "Are you sure you want to place an order?",
-            confirmButtonText: "Yes",
+            title: t("Are you sure you want to place an order?.1"),
+            confirmButtonText: t("Yes.1"),
             showCancelButton: true,
             confirmButtonColor: "rgb(49, 151, 149)",
             cancelButtonColor: "#d33",
@@ -69,7 +70,7 @@ const PlaceOrder = () => {
                 dispatch(saveOrder(order));
                 Swal.fire({
                     icon: "success",
-                    title: "Order placed successfully",
+                    title: t("Order placed successfully.1"),
                     showConfirmButton: false,
                     timer: 1500,
                 });
@@ -97,9 +98,9 @@ const PlaceOrder = () => {
                                     <Thead>
                                         <Tr>
                                             <Th></Th>
-                                            <Th>Item</Th>
-                                            <Th>Quantity</Th>
-                                            <Th>Price</Th>
+                                            <Th>{t("Item.1")}</Th>
+                                            <Th>{t("Quantity.1")}</Th>
+                                            <Th>{t("Price.1")}</Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody>
@@ -123,7 +124,8 @@ const PlaceOrder = () => {
                                                 <Td>
                                                     <Stack>
                                                         <Text fontSize={16}>
-                                                            {c.quantity} item
+                                                            {c.quantity}{" "}
+                                                            {t("item.1")}
                                                         </Text>
                                                     </Stack>
                                                 </Td>
@@ -138,12 +140,17 @@ const PlaceOrder = () => {
 
                             <Box maxW={"400px"} my={"10"}>
                                 <Text fontSize={"20px"} fontWeight="bold">
-                                    Shipping address info
+                                    {t("Shipping address info.1")}
                                 </Text>
-                                <Text>City: {address?.city}</Text>
-                                <Text>Street: {address?.street}</Text>
                                 <Text>
-                                    Additional info: {address?.additional_info}
+                                    {t("City.1")}: {address?.city}
+                                </Text>
+                                <Text>
+                                    {t("Street.1")}: {address?.street}
+                                </Text>
+                                <Text>
+                                    {t("Additional info.1")}:{" "}
+                                    {address?.additional_info}
                                 </Text>
                             </Box>
 
@@ -151,12 +158,16 @@ const PlaceOrder = () => {
 
                             <Box maxW={"400px"} my={"10"}>
                                 <Text fontSize={"20px"} fontWeight="bold">
-                                    User info
+                                    {t("User info.1")}
                                 </Text>
-                                <Text>Name: {address?.user.name}</Text>
-                                <Text>Email: {address?.user.email}</Text>
                                 <Text>
-                                    Phone number: +995{" "}
+                                    {t("Name.1")}: {address?.user.name}
+                                </Text>
+                                <Text>
+                                    {t("Email.1")}: {address?.user.email}
+                                </Text>
+                                <Text>
+                                    {t("Phone number.1")}: +995{" "}
                                     {address?.user.phone_number}
                                 </Text>
                             </Box>
@@ -164,16 +175,18 @@ const PlaceOrder = () => {
                     ) : (
                         <Alert status="info">
                             <AlertIcon />
-                            No items in cart.{" "}
+                            {t("No items in cart.1")}.{" "}
                             <Link as={ReachLink} colorScheme={"teal"} to="/">
-                                Go back to shopping
+                                {t("Go back to shopping.1")}
                             </Link>
                         </Alert>
                     )}
                     <Box flex={1}>
                         <Card>
                             <CardHeader>
-                                <Heading size="md">Order Summary</Heading>
+                                <Heading size="md">
+                                    {t("Order Summary.1")}
+                                </Heading>
                             </CardHeader>
 
                             <Divider />
@@ -185,10 +198,10 @@ const PlaceOrder = () => {
                                             size="xs"
                                             textTransform="uppercase"
                                         >
-                                            Items
+                                            {t("Items.1")}
                                         </Heading>
                                         <Text pt="2" fontSize="sm">
-                                            Overall {cart.length} items in cart
+                                            {cart.length} {t("items in cart.1")}
                                         </Text>
                                     </Box>
                                     <Box>
@@ -196,7 +209,7 @@ const PlaceOrder = () => {
                                             size="xs"
                                             textTransform="uppercase"
                                         >
-                                            Items Price
+                                            {t("Items Price.1")}
                                         </Heading>
                                         <Text pt="2" fontSize="sm">
                                             {cart
@@ -216,7 +229,7 @@ const PlaceOrder = () => {
                                             size="xs"
                                             textTransform="uppercase"
                                         >
-                                            Shipping
+                                            {t("Shipping.1")}
                                         </Heading>
                                         <Text pt="2" fontSize="sm">
                                             {cart
@@ -238,7 +251,7 @@ const PlaceOrder = () => {
                                             size="xs"
                                             textTransform="uppercase"
                                         >
-                                            Price Summary
+                                            {t("Price Summary.1")}
                                         </Heading>
                                         <Text pt="2" fontSize="sm">
                                             {Number(
@@ -275,7 +288,7 @@ const PlaceOrder = () => {
                                                 onClick={placeOrderHandler}
                                                 colorScheme={"teal"}
                                             >
-                                                Place order
+                                                {t("Place order.1")}
                                             </Button>
                                         ) : (
                                             <Button
@@ -283,7 +296,7 @@ const PlaceOrder = () => {
                                                 isDisabled
                                                 colorScheme={"teal"}
                                             >
-                                                Place order
+                                                {t("Place order.1")}
                                             </Button>
                                         )}
                                     </Box>
